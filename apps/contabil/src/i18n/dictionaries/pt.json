@@ -1,0 +1,25 @@
+{
+  "metadata": {
+    "description": "Sistema interno de contabilidade"
+  },
+  "login": {
+    "title": "Entrar",
+    "heading": "Acesse sua conta",
+    "subheading": "Entre com seu e-mail e senha para continuar.",
+    "tagline": "Sua contabilidade organizada, em um só lugar.",
+    "description": "Lançamentos, conciliações e obrigações fiscais com controle e segurança.",
+    "footer": "Uso interno",
+    "form": {
+      "email": "E-mail",
+      "emailPlaceholder": "voce@empresa.com.br",
+      "password": "Senha",
+      "forgotPassword": "Esqueceu a senha?",
+      "show": "Mostrar",
+      "hide": "Ocultar",
+      "showPassword": "Mostrar senha",
+      "hidePassword": "Ocultar senha",
+      "remember": "Manter conectado",
+      "submit": "Entrar"
+    }
+  }
+}

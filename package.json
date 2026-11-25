@@ -1,0 +1,15 @@
+{
+  "name": "workspace",
+  "private": true,
+  "packageManager": "pnpm@12.4.2",
+  "scripts": {
+    "dev": "pnpm --parallel --filter \"./apps/*\" dev",
+    "dev:landing": "pnpm --filter landing dev",
+    "dev:contabil": "pnpm --filter contabil dev",
+    "build": "pnpm -r build",
+    "build:landing": "pnpm --filter landing build",
+    "build:contabil": "pnpm --filter contabil build",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck"
+  }
+}

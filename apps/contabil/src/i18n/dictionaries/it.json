@@ -1,0 +1,25 @@
+{
+  "metadata": {
+    "description": "Sistema interno di contabilità"
+  },
+  "login": {
+    "title": "Accedi",
+    "heading": "Accedi al tuo account",
+    "subheading": "Inserisci la tua e-mail e la password per continuare.",
+    "tagline": "La tua contabilità organizzata, in un unico posto.",
+    "description": "Scritture contabili, riconciliazioni e adempimenti fiscali, con controllo e sicurezza.",
+    "footer": "Uso interno",
+    "form": {
+      "email": "E-mail",
+      "emailPlaceholder": "nome@azienda.it",
+      "password": "Password",
+      "forgotPassword": "Password dimenticata?",
+      "show": "Mostra",
+      "hide": "Nascondi",
+      "showPassword": "Mostra password",
+      "hidePassword": "Nascondi password",
+      "remember": "Resta connesso",
+      "submit": "Accedi"
+    }
+  }
+}

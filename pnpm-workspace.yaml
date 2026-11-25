@@ -1,0 +1,21 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+# Versões únicas para todo o monorepo. Nos package.json, use "catalog:".
+catalog:
+  next: 16.4.4
+  react: 19.3.0
+  react-dom: 19.3.0
+  eslint: ^9
+  eslint-config-next: 16.4.4
+  tailwindcss: ^4
+  "@tailwindcss/turbopack": ^4
+  typescript: ^5
+  "@types/node": ^20
+  "@types/react": ^19
+  "@types/react-dom": ^19
+
+allowBuilds:
+  sharp: false
+  unrs-resolver: false

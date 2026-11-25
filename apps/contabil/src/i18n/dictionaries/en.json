@@ -1,0 +1,25 @@
+{
+  "metadata": {
+    "description": "Internal accounting system"
+  },
+  "login": {
+    "title": "Sign in",
+    "heading": "Sign in to your account",
+    "subheading": "Enter your email and password to continue.",
+    "tagline": "Your accounting, organized in one place.",
+    "description": "Journal entries, reconciliations and tax filings, with control and security.",
+    "footer": "Internal use",
+    "form": {
+      "email": "Email",
+      "emailPlaceholder": "you@company.com",
+      "password": "Password",
+      "forgotPassword": "Forgot your password?",
+      "show": "Show",
+      "hide": "Hide",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "remember": "Keep me signed in",
+      "submit": "Sign in"
+    }
+  }
+}
