@@ -10,6 +10,7 @@
     "typecheck": "next typegen && tsc --noEmit"
   },
   "dependencies": {
+    "@repo/auth": "workspace:*",
     "@repo/i18n": "workspace:*",
     "@repo/ui": "workspace:*",
     "next": "catalog:",

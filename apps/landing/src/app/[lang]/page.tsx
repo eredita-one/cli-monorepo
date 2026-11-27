@@ -1,4 +1,4 @@
-import { Brand } from "@repo/ui/brand";
+import { AppBrand } from "@/brand";
 import { LanguageSwitcher } from "@repo/ui/language-switcher";
 import { LOCALE_COOKIE } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
@@ -11,7 +11,7 @@ export default async function HomePage() {
   return (
     <div className="flex flex-1 flex-col">
       <header className="mx-auto flex w-full max-w-5xl flex-wrap items-center justify-between gap-4 px-4 py-6 sm:px-8">
-        <Brand />
+        <AppBrand />
         <LanguageSwitcher cookieName={LOCALE_COOKIE} />
       </header>
 

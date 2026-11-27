@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import { locales } from "@repo/i18n/config";
-import { BRAND_NAME } from "@repo/ui/brand";
+import { BRAND_NAME } from "@/brand";
 import { getDictionary, getLocale } from "@/i18n/get-dictionary";
 import "../globals.css";
 

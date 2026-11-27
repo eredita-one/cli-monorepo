@@ -3,23 +3,8 @@
     "description": "Sistema interno de contabilidad"
   },
   "login": {
-    "title": "Iniciar sesión",
-    "heading": "Accede a tu cuenta",
-    "subheading": "Inicia sesión con tu correo electrónico y contraseña para continuar.",
     "tagline": "Tu contabilidad organizada, en un solo lugar.",
     "description": "Asientos contables, conciliaciones y obligaciones fiscales con control y seguridad.",
-    "footer": "Uso interno",
-    "form": {
-      "email": "Correo electrónico",
-      "emailPlaceholder": "nombre@empresa.com",
-      "password": "Contraseña",
-      "forgotPassword": "¿Olvidaste tu contraseña?",
-      "show": "Mostrar",
-      "hide": "Ocultar",
-      "showPassword": "Mostrar contraseña",
-      "hidePassword": "Ocultar contraseña",
-      "remember": "Mantener la sesión iniciada",
-      "submit": "Iniciar sesión"
-    }
+    "footer": "Uso interno"
   }
 }

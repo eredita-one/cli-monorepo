@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+/* Componentes compartilhados ficam fora do app: o Tailwind precisa varrê-los. */
+@source "../../../../packages/ui/src";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+}
+
+/*
+ * Cor da marca Eredità (paleta dos protótipos: verde-escuro #123b32, primário #17634f).
+ * Os componentes compartilhados (@repo/ui) usam `brand-*`.
+ */
+@theme {
+  --color-brand-50: #effaf5;
+  --color-brand-100: #d8f0e4;
+  --color-brand-200: #b3e0cb;
+  --color-brand-300: #82c8aa;
+  --color-brand-400: #4fa985;
+  --color-brand-500: #2e8b69;
+  --color-brand-600: #1f7256;
+  --color-brand-700: #17634f;
+  --color-brand-800: #154c3e;
+  --color-brand-900: #123b32;
+  --color-brand-950: #0a231d;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}

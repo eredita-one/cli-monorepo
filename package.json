@@ -6,9 +6,15 @@
     "dev": "pnpm --parallel --filter \"./apps/*\" dev",
     "dev:landing": "pnpm --filter landing dev",
     "dev:contabil": "pnpm --filter contabil dev",
+    "dev:admin": "pnpm --filter admin dev",
+    "dev:consultor": "pnpm --filter consultor dev",
+    "dev:cliente": "pnpm --filter cliente dev",
     "build": "pnpm -r build",
     "build:landing": "pnpm --filter landing build",
     "build:contabil": "pnpm --filter contabil build",
+    "build:admin": "pnpm --filter admin build",
+    "build:consultor": "pnpm --filter consultor build",
+    "build:cliente": "pnpm --filter cliente build",
     "lint": "pnpm -r lint",
     "typecheck": "pnpm -r typecheck"
   }

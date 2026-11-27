@@ -8,7 +8,8 @@
     "./config": "./src/config.ts",
     "./messages": "./src/messages.ts",
     "./proxy": "./src/proxy.ts",
-    "./server": "./src/server.ts"
+    "./server": "./src/server.ts",
+    "./format": "./src/format.ts"
   },
   "scripts": {
     "lint": "eslint",

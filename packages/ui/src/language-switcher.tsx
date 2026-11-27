@@ -37,7 +37,7 @@ export function LanguageSwitcher({ cookieName }: { cookieName: string }) {
                 onClick={() => writeLocaleCookie(cookieName, locale)}
                 className={
                   isCurrent
-                    ? "font-semibold text-emerald-700 dark:text-emerald-400"
+                    ? "font-semibold text-brand-700 dark:text-brand-400"
                     : "text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
                 }
               >

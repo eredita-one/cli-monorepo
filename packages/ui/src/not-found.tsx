@@ -8,7 +8,7 @@ export function NotFoundView({ locale }: { locale: Locale }) {
 
   return (
     <main className="flex flex-1 flex-col items-center justify-center px-4 py-16 text-center">
-      <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-400">
+      <p className="text-sm font-semibold text-brand-700 dark:text-brand-400">
         404
       </p>
       <h1 className="mt-2 text-3xl font-semibold tracking-tight">{t.title}</h1>
@@ -17,7 +17,7 @@ export function NotFoundView({ locale }: { locale: Locale }) {
       </p>
       <Link
         href={`/${locale}`}
-        className="mt-8 rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white shadow-xs transition-colors hover:bg-emerald-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
+        className="mt-8 rounded-lg bg-brand-700 px-4 py-2.5 text-sm font-semibold text-white shadow-xs transition-colors hover:bg-brand-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"
       >
         {t.backHome}
       </Link>
