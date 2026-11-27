@@ -6,5 +6,38 @@
     "tagline": "Your accounting, organized in one place.",
     "description": "Journal entries, reconciliations and tax filings, with control and security.",
     "footer": "Internal use"
+  },
+  "shell": {
+    "area": "Accounting firm",
+    "tagline": "Tax management",
+    "workspace": "Accounting firm"
+  },
+  "menu": {
+    "groups": {
+      "overview": "Overview",
+      "tax": "Tax",
+      "properties": "Properties",
+      "documents": "Documents",
+      "support": "Support"
+    },
+    "items": {
+      "overview": "Overview",
+      "deadlines": "Tax calendar",
+      "taxpayers": "Taxpayers",
+      "obligations": "Filings and F24",
+      "cadastre": "Cadastre and leases",
+      "archive": "Restricted archive",
+      "banking": "Bank details and mandates",
+      "help": "Help"
+    }
+  },
+  "modules": {
+    "deadlines": "IMU, tax return and other filing deadlines, by date.",
+    "taxpayers": "Tax records of the taxpayers handled by the firm.",
+    "obligations": "Status of each filing, from estimate to payment, and F24 drafts.",
+    "cadastre": "Cadastral data, income and lease contracts for the properties.",
+    "archive": "Restricted-access tax documents.",
+    "banking": "Taxpayers' bank details and direct debit authorizations.",
+    "help": "Guidance on using the firm's dashboard."
   }
 }

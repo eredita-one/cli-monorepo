@@ -6,5 +6,53 @@
     "tagline": "Your assets in Italy, always under control.",
     "description": "Properties, income and expenses, taxes and your relocation, all in one place.",
     "footer": "Clients only"
+  },
+  "shell": {
+    "area": "Private portal",
+    "tagline": "Client portal",
+    "workspace": "Private portal"
+  },
+  "menu": {
+    "groups": {
+      "overview": "Home",
+      "assets": "My assets",
+      "tax": "Tax",
+      "planning": "Planning",
+      "account": "My account",
+      "support": "Support"
+    },
+    "items": {
+      "overview": "Home",
+      "properties": "Properties",
+      "money": "My money",
+      "strategy": "Wealth strategy",
+      "resale": "Resale",
+      "taxes": "Taxes",
+      "taxCenter": "Tax center",
+      "taxBrazilItaly": "Brazil–Italy tax",
+      "simulator": "5-year simulator",
+      "journey": "Journey",
+      "plan": "Profile and plan",
+      "personal": "My details and family",
+      "services": "Contracted services",
+      "requests": "Ask for help",
+      "help": "FAQ"
+    }
+  },
+  "modules": {
+    "properties": "Your properties in Italy, with documents and status.",
+    "money": "Money in and out of your assets, read only.",
+    "strategy": "The wealth plan agreed with Eredità.",
+    "resale": "Simulations and steps to resell a property.",
+    "taxes": "Taxes due on your properties and their deadlines.",
+    "taxCenter": "The tax filings handled by the accounting firm.",
+    "taxBrazilItaly": "How your income is declared in Brazil and Italy.",
+    "simulator": "Five-year projection of returns and costs.",
+    "journey": "The steps of your move to Italy.",
+    "plan": "Your profile and contracted plan.",
+    "personal": "Your personal and family details, read only.",
+    "services": "The services contracted with Eredità.",
+    "requests": "Open a request to the Eredità team and follow the reply.",
+    "help": "Answers to the most common questions."
   }
 }

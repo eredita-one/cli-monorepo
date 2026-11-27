@@ -10,6 +10,8 @@ import {
   type ClientUser,
   cookieNames,
   type LoginFormState,
+  STAFF_APP_NAMES,
+  type StaffApp,
   type StaffAuthConfig,
   type StaffUser,
 } from "./config";
@@ -124,4 +126,33 @@ export function createSessionEndHandler(config: AuthConfig) {
     clearSession(response.cookies, config);
     return response;
   };
+}
+
+/** Porta local de cada app da equipe (a mesma dos scripts `dev`). */
+const STAFF_APP_DEV_URLS: Record<StaffApp, string> = {
+  CONTABIL: "http://localhost:3001",
+  ADMIN: "http://localhost:3002",
+  CONSULTOR: "http://localhost:3003",
+};
+
+/**
+ * Endereço de um app da equipe: `APP_URL_ADMIN`, `APP_URL_CONSULTOR` ou `APP_URL_CONTABIL`.
+ * Em desenvolvimento, sem a variável, usa a porta local; em produção, sem ela, `undefined`.
+ */
+export function staffAppUrl(app: StaffApp): string | undefined {
+  const configured = process.env[`APP_URL_${app}`]?.trim();
+  if (configured) return configured.replace(/\/+$/, "");
+  return process.env.NODE_ENV === "production" ? undefined : STAFF_APP_DEV_URLS[app];
+}
+
+/**
+ * Os outros apps da equipe a que a pessoa tem acesso, com o endereço já no idioma atual
+ * (para o "contexto de trabalho" do painel). Apps sem endereço configurado ficam de fora.
+ * Cada app tem a própria sessão: o outro pode pedir login.
+ */
+export function otherStaffApps(user: StaffUser, current: StaffApp, locale: string) {
+  return user.apps.flatMap((app) => {
+    const url = app === current ? undefined : staffAppUrl(app);
+    return url ? [{ id: app, name: STAFF_APP_NAMES[app], href: `${url}/${locale}` }] : [];
+  });
 }

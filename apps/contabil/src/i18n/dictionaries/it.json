@@ -6,5 +6,38 @@
     "tagline": "La tua contabilità organizzata, in un unico posto.",
     "description": "Scritture contabili, riconciliazioni e adempimenti fiscali, con controllo e sicurezza.",
     "footer": "Uso interno"
+  },
+  "shell": {
+    "area": "Studio commercialista",
+    "tagline": "Gestione fiscale",
+    "workspace": "Studio commercialista"
+  },
+  "menu": {
+    "groups": {
+      "overview": "Panoramica",
+      "tax": "Fisco",
+      "properties": "Immobili",
+      "documents": "Documenti",
+      "support": "Supporto"
+    },
+    "items": {
+      "overview": "Panoramica",
+      "deadlines": "Scadenzario",
+      "taxpayers": "Contribuenti",
+      "obligations": "Adempimenti e F24",
+      "cadastre": "Catasto e locazioni",
+      "archive": "Archivio riservato",
+      "banking": "Dati bancari e mandati",
+      "help": "Assistenza"
+    }
+  },
+  "modules": {
+    "deadlines": "Scadenze di IMU, dichiarazioni e altri adempimenti, in ordine di data.",
+    "taxpayers": "Anagrafica fiscale dei contribuenti seguiti dallo studio.",
+    "obligations": "Stato di ogni adempimento, dalla stima al pagamento, e bozze F24.",
+    "cadastre": "Dati catastali, rendite e contratti di locazione degli immobili.",
+    "archive": "Documenti fiscali ad accesso riservato.",
+    "banking": "Coordinate bancarie e autorizzazioni di addebito dei contribuenti.",
+    "help": "Indicazioni per usare il pannello dello studio."
   }
 }

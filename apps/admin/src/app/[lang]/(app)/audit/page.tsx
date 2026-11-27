@@ -1,7 +1,7 @@
 import type { StaffApp } from "@repo/auth/config";
 import type { Locale } from "@repo/i18n/config";
 import { sharedMessages } from "@repo/i18n/messages";
-import { Skeleton } from "@repo/ui/app-shell";
+import { Skeleton } from "@repo/ui/dashboard/blocks";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Notice, PageHeader, tableClass } from "@/components/ui";

@@ -1,0 +1,56 @@
+/*
+ * Base visual do painel (@repo/ui/dashboard), igual em todos os apps logados.
+ * O app importa este arquivo no globals.css, logo depois do Tailwind, e define só a
+ * sua paleta `brand-*` (a barra lateral e os destaques usam essa paleta).
+ */
+
+/*
+ * Tema claro, como o protótipo. O `dark:` só vale dentro de um elemento com a classe
+ * `.dark`, que ainda não é usada: o tema escuro fica para quando houver a preferência.
+ */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Dourado da marca Eredità: detalhes, item ativo, indicadores. */
+  --color-gold-50: #faf9f4;
+  --color-gold-100: #f7f2e7;
+  --color-gold-200: #f0d69e;
+  --color-gold-300: #e6c58b;
+  --color-gold-400: #cba96b;
+  --color-gold-500: #bd9252;
+  --color-gold-600: #9a8050;
+  --color-gold-700: #8a7247;
+
+  /* Superfícies e textos da área de conteúdo. */
+  --color-canvas: #f3f6f4;
+  --color-line: #e5ebe6;
+  --color-line-soft: #eef2ee;
+  --color-ink: #183b32;
+  --color-ink-soft: #4f665a;
+  --color-ink-muted: #75847b;
+  --color-ink-faint: #9aa59e;
+}
+
+:root {
+  color-scheme: light;
+}
+
+/*
+ * O Tailwind 4 deixa <button> com o cursor padrão (seta). Tudo o que é clicável mostra a
+ * mãozinha; desabilitado, não. Fica na camada base: uma classe `cursor-*` ainda vence.
+ */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  select:not(:disabled),
+  summary,
+  input:is([type="checkbox"], [type="radio"], [type="submit"], [type="button"], [type="reset"]):not(:disabled),
+  label:has(> input:is([type="checkbox"], [type="radio"]):not(:disabled)) {
+    cursor: pointer;
+  }
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+}

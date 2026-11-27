@@ -1,14 +1,18 @@
 # Workspace Contábil
 
-Monorepo pnpm com dois apps Next.js 16 e os pacotes compartilhados entre eles.
+Monorepo pnpm com cinco apps Next.js 16 e os pacotes compartilhados entre eles.
 
 ```
 apps/
   landing/              site público                     → http://localhost:3000
-  contabil/             sistema interno de contabilidade → http://localhost:3001
+  contabil/             escritório contábil (TAX)        → http://localhost:3001
+  admin/                gestão interna (Eredità ONE)     → http://localhost:3002
+  consultor/            rede comercial (Eredità Partner) → http://localhost:3003
+  cliente/              portal do cliente (Private)      → http://localhost:3004
 packages/
+  auth/                 ponte com a api-backend (login, sessão, proxy)
   i18n/                 idiomas, proxy de idioma, carregador de dicionários
-  ui/                   componentes compartilhados (Brand, LanguageSwitcher, NotFoundView)
+  ui/                   componentes compartilhados (painel, login, marca, 404)
   typescript-config/    tsconfig base (base.json, nextjs.json)
   eslint-config/        ESLint compartilhado (next, library)
 ```
@@ -71,6 +75,35 @@ URLs inexistentes dentro de um idioma (`/it/xyz`) caem em `[lang]/[...rest]` e m
 página 404 traduzida (`[lang]/not-found.tsx`). A resposta sai com status 404 e `noindex`,
 mas, por causa do Cache Components, o conteúdo é montado no navegador (o HTML do servidor
 vem sem ele).
+
+## Painel padrão (`@repo/ui/dashboard`)
+
+Toda área logada usa o mesmo painel (barra lateral verde com contexto de trabalho, menu
+em grupos, ajuda; cabeçalho com trilha, busca, notificações e conta; rodapé). Cada app só
+passa a sua configuração:
+
+- **Menu:** `apps/<app>/src/menu.ts` declara grupos e itens (`id`, `path`, ícone do
+  `lucide-react`). Os textos ficam no dicionário do app, em `menu.groups` e `menu.items`
+  (o TypeScript acusa id sem texto). `getMenu()` monta o menu de quem está logado; no admin
+  ele esconde as seções de acesso sem permissão (`include`).
+- **Moldura:** `apps/<app>/src/app/[lang]/(app)/layout.tsx` usa o `DashboardFrame` com a
+  marca, a área (início da trilha), a página de ajuda e as funções que leem a sessão
+  (`getMenu`, `getAccount`, `getWorkspace`). Elas rodam dentro de `<Suspense>`: a moldura sai
+  estática e só essas partes esperam a API.
+- **Módulos sem tela:** item com `soon: true` abre a página "em construção"
+  (`(app)/[module]/page.tsx`), com a descrição de `modules.<id>` no dicionário. Quando o
+  módulo ganhar tela, crie a pasta dele (ex.: `(app)/clients/`), que tem prioridade sobre
+  `[module]`, e tire o `soon`.
+- **Páginas:** `@repo/ui/dashboard/blocks` (cabeçalho da página, aviso, indicador principal,
+  métricas, seção em card, "em construção") e `@repo/ui/dashboard/styles` (botões, tabela,
+  campos).
+- **Contexto de trabalho:** leva aos outros apps da equipe a que a pessoa tem acesso.
+  O endereço de cada um vem de `APP_URL_ADMIN`, `APP_URL_CONSULTOR` e `APP_URL_CONTABIL`
+  (em desenvolvimento, as portas locais; em produção, app sem variável não aparece).
+- **Visual:** `packages/ui/src/dashboard/dashboard.css` (importado no `globals.css` de cada
+  app) define o tema claro, o dourado (`gold-*`) e as cores de superfície e texto
+  (`canvas`, `line`, `ink-*`). O app define só a sua paleta `brand-*`. O `dark:` só vale
+  com a classe `.dark`, que ainda não é usada.
 
 ## Componentes compartilhados e Tailwind
 

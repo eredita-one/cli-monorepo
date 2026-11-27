@@ -6,5 +6,53 @@
     "tagline": "Tu patrimonio en Italia, siempre bajo control.",
     "description": "Inmuebles, ingresos y gastos, impuestos y tu traslado, en un solo lugar.",
     "footer": "Área exclusiva para clientes"
+  },
+  "shell": {
+    "area": "Portal privado",
+    "tagline": "Portal del cliente",
+    "workspace": "Portal privado"
+  },
+  "menu": {
+    "groups": {
+      "overview": "Inicio",
+      "assets": "Mi patrimonio",
+      "tax": "Fiscal",
+      "planning": "Planificación",
+      "account": "Mi cuenta",
+      "support": "Soporte"
+    },
+    "items": {
+      "overview": "Inicio",
+      "properties": "Inmuebles",
+      "money": "Mi dinero",
+      "strategy": "Estrategia patrimonial",
+      "resale": "Reventa",
+      "taxes": "Impuestos",
+      "taxCenter": "Central fiscal",
+      "taxBrazilItaly": "Fiscalidad Brasil–Italia",
+      "simulator": "Simulador 5 años",
+      "journey": "Recorrido",
+      "plan": "Perfil y plan",
+      "personal": "Mis datos y familia",
+      "services": "Servicios contratados",
+      "requests": "Pedir ayuda",
+      "help": "Preguntas frecuentes"
+    }
+  },
+  "modules": {
+    "properties": "Tus inmuebles en Italia, con documentos y situación.",
+    "money": "Entradas y salidas de tu patrimonio, solo de consulta.",
+    "strategy": "El plan patrimonial acordado con Eredità.",
+    "resale": "Simulaciones y pasos para revender un inmueble.",
+    "taxes": "Impuestos adeudados sobre tus inmuebles y sus plazos.",
+    "taxCenter": "Las obligaciones fiscales que sigue el despacho contable.",
+    "taxBrazilItaly": "Cómo se declaran tus ingresos en Brasil e Italia.",
+    "simulator": "Proyección a 5 años de rendimiento y costos.",
+    "journey": "Las etapas de tu mudanza a Italia.",
+    "plan": "Tu perfil y el plan contratado.",
+    "personal": "Tus datos personales y los de tu familia, solo de consulta.",
+    "services": "Los servicios contratados con Eredità.",
+    "requests": "Abre una solicitud al equipo de Eredità y sigue la respuesta.",
+    "help": "Respuestas a las preguntas más comunes."
   }
 }

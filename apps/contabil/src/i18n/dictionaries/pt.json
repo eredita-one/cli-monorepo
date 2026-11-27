@@ -6,5 +6,38 @@
     "tagline": "Sua contabilidade organizada, em um só lugar.",
     "description": "Lançamentos, conciliações e obrigações fiscais com controle e segurança.",
     "footer": "Uso interno"
+  },
+  "shell": {
+    "area": "Escritório contábil",
+    "tagline": "Gestão fiscal",
+    "workspace": "Escritório contábil"
+  },
+  "menu": {
+    "groups": {
+      "overview": "Visão geral",
+      "tax": "Fiscal",
+      "properties": "Imóveis",
+      "documents": "Documentos",
+      "support": "Suporte"
+    },
+    "items": {
+      "overview": "Visão geral",
+      "deadlines": "Calendário fiscal",
+      "taxpayers": "Contribuintes",
+      "obligations": "Obrigações e F24",
+      "cadastre": "Cadastro e locações",
+      "archive": "Arquivo restrito",
+      "banking": "Dados bancários e mandatos",
+      "help": "Ajuda"
+    }
+  },
+  "modules": {
+    "deadlines": "Prazos de IMU, declarações e demais obrigações, por data.",
+    "taxpayers": "Cadastro fiscal dos contribuintes atendidos pelo escritório.",
+    "obligations": "Situação de cada obrigação, da estimativa ao pagamento, e rascunhos de F24.",
+    "cadastre": "Dados cadastrais, rendas e contratos de locação dos imóveis.",
+    "archive": "Documentos fiscais de acesso restrito.",
+    "banking": "Dados bancários e autorizações de débito dos contribuintes.",
+    "help": "Orientações para usar o painel do escritório."
   }
 }

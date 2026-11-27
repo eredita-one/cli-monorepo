@@ -1,6 +1,7 @@
 import type { Locale } from "@repo/i18n/config";
 import { format } from "@repo/i18n/format";
 import { sharedMessages } from "@repo/i18n/messages";
+import { PageHeading, SectionCard } from "./dashboard/blocks";
 
 /** Página de demonstração dos apps que ainda não têm conteúdo: prova que o login funciona. */
 export function DemoView({
@@ -16,33 +17,26 @@ export function DemoView({
   const t = sharedMessages[locale].demo;
 
   return (
-    <div className="max-w-2xl space-y-8">
-      <div className="space-y-3">
-        <span className="inline-block rounded-full bg-brand-50 px-2.5 py-1 text-xs font-semibold text-brand-800 dark:bg-brand-950 dark:text-brand-200">
-          {t.badge}
-        </span>
-        <h1 className="text-3xl font-semibold tracking-tight">
-          {format(t.greeting, { name: user.name })}
-        </h1>
-        <p className="text-zinc-600 dark:text-zinc-400">{t.body}</p>
-      </div>
+    <div className="max-w-3xl">
+      <PageHeading
+        kicker={t.badge}
+        title={format(t.greeting, { name: user.name })}
+        description={t.body}
+      />
 
-      <section className="rounded-xl border border-zinc-200 p-6 dark:border-zinc-800">
-        <h2 className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">
-          {t.sessionTitle}
-        </h2>
-        <dl className="mt-4 space-y-3 text-sm">
+      <SectionCard title={t.sessionTitle} titleId="demo-session" className="pb-5">
+        <dl className="mt-2 space-y-3 text-sm">
           <div className="flex flex-wrap gap-x-2">
-            <dt className="text-zinc-500 dark:text-zinc-400">{t.email}:</dt>
-            <dd className="font-medium">{user.email}</dd>
+            <dt className="text-ink-muted">{t.email}:</dt>
+            <dd className="font-medium text-ink-soft">{user.email}</dd>
           </div>
           {areas && areas.length > 0 ? (
             <div className="flex flex-wrap items-center gap-2">
-              <dt className="text-zinc-500 dark:text-zinc-400">{t.apps}:</dt>
+              <dt className="text-ink-muted">{t.apps}:</dt>
               {areas.map((area) => (
                 <dd
                   key={area}
-                  className="rounded-md bg-zinc-100 px-2 py-0.5 font-medium dark:bg-zinc-800"
+                  className="rounded-md border border-line bg-[#f5f8f5] px-2 py-0.5 text-xs font-medium text-ink-soft"
                 >
                   {area}
                 </dd>
@@ -50,7 +44,7 @@ export function DemoView({
             </div>
           ) : null}
         </dl>
-      </section>
+      </SectionCard>
     </div>
   );
 }

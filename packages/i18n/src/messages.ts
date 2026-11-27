@@ -53,6 +53,38 @@ type SharedMessages = {
     logout: string;
     loggingOut: string;
     loading: string;
+    sidebar: string;
+    openMenu: string;
+    closeMenu: string;
+    collapseSidebar: string;
+    expandSidebar: string;
+    hideSidebar: string;
+    showSidebar: string;
+    /** Texto do botão no pé da barra lateral. */
+    collapse: string;
+    breadcrumbs: string;
+    workspace: string;
+    switchWorkspace: string;
+    search: string;
+    searchPlaceholder: string;
+    searchEmpty: string;
+    notifications: string;
+    notificationsEmpty: string;
+    account: string;
+    /** Título do modal de troca de idioma. */
+    chooseLanguage: string;
+    close: string;
+    help: string;
+    helpTitle: string;
+    helpBody: string;
+    helpCta: string;
+    footerNote: string;
+  };
+  /** Página de um módulo que ainda não tem tela. */
+  module: {
+    kicker: string;
+    note: string;
+    back: string;
   };
   /** Página de demonstração após o login, nos apps ainda sem conteúdo. */
   demo: {
@@ -116,6 +148,35 @@ export const sharedMessages: Record<Locale, SharedMessages> = {
       logout: "Esci",
       loggingOut: "Uscita…",
       loading: "Caricamento…",
+      sidebar: "Barra laterale",
+      openMenu: "Apri il menu",
+      closeMenu: "Chiudi il menu",
+      collapseSidebar: "Comprimi il menu laterale",
+      expandSidebar: "Espandi il menu laterale",
+      hideSidebar: "Nascondi il menu laterale",
+      showSidebar: "Mostra il menu laterale",
+      collapse: "Comprimi il menu",
+      breadcrumbs: "Percorso di navigazione",
+      workspace: "Contesto di lavoro",
+      switchWorkspace: "Vai a",
+      search: "Cerca nel pannello",
+      searchPlaceholder: "Cerca pagine…",
+      searchEmpty: "Nessuna pagina trovata.",
+      notifications: "Notifiche",
+      notificationsEmpty: "Nessuna novità per ora.",
+      account: "Menu dell'account",
+      chooseLanguage: "Scegli la lingua",
+      close: "Chiudi",
+      help: "Centro assistenza",
+      helpTitle: "Serve aiuto?",
+      helpBody: "Siamo qui per supportarti.",
+      helpCta: "Vai all'assistenza",
+      footerNote: "Sicurezza e privacy al primo posto",
+    },
+    module: {
+      kicker: "In costruzione",
+      note: "Questo modulo è in preparazione e arriverà nelle prossime versioni.",
+      back: "Torna alla panoramica",
     },
     demo: {
       title: "Dimostrazione",
@@ -171,6 +232,35 @@ export const sharedMessages: Record<Locale, SharedMessages> = {
       logout: "Sair",
       loggingOut: "Saindo…",
       loading: "Carregando…",
+      sidebar: "Barra lateral",
+      openMenu: "Abrir menu",
+      closeMenu: "Fechar menu",
+      collapseSidebar: "Recolher menu lateral",
+      expandSidebar: "Expandir menu lateral",
+      hideSidebar: "Ocultar menu lateral",
+      showSidebar: "Mostrar menu lateral",
+      collapse: "Recolher menu",
+      breadcrumbs: "Trilha de navegação",
+      workspace: "Contexto de trabalho",
+      switchWorkspace: "Ir para",
+      search: "Buscar no painel",
+      searchPlaceholder: "Buscar páginas…",
+      searchEmpty: "Nenhuma página encontrada.",
+      notifications: "Notificações",
+      notificationsEmpty: "Nada de novo por enquanto.",
+      account: "Menu da conta",
+      chooseLanguage: "Escolher idioma",
+      close: "Fechar",
+      help: "Central de ajuda",
+      helpTitle: "Precisa de ajuda?",
+      helpBody: "Estamos por aqui para apoiar.",
+      helpCta: "Acessar suporte",
+      footerNote: "Segurança e privacidade em primeiro lugar",
+    },
+    module: {
+      kicker: "Em construção",
+      note: "Este módulo está sendo preparado e chega nas próximas versões.",
+      back: "Voltar à visão geral",
     },
     demo: {
       title: "Demonstração",
@@ -226,6 +316,35 @@ export const sharedMessages: Record<Locale, SharedMessages> = {
       logout: "Salir",
       loggingOut: "Saliendo…",
       loading: "Cargando…",
+      sidebar: "Barra lateral",
+      openMenu: "Abrir menú",
+      closeMenu: "Cerrar menú",
+      collapseSidebar: "Contraer el menú lateral",
+      expandSidebar: "Expandir el menú lateral",
+      hideSidebar: "Ocultar el menú lateral",
+      showSidebar: "Mostrar el menú lateral",
+      collapse: "Contraer menú",
+      breadcrumbs: "Ruta de navegación",
+      workspace: "Contexto de trabajo",
+      switchWorkspace: "Ir a",
+      search: "Buscar en el panel",
+      searchPlaceholder: "Buscar páginas…",
+      searchEmpty: "No se encontró ninguna página.",
+      notifications: "Notificaciones",
+      notificationsEmpty: "No hay novedades por ahora.",
+      account: "Menú de la cuenta",
+      chooseLanguage: "Elegir idioma",
+      close: "Cerrar",
+      help: "Centro de ayuda",
+      helpTitle: "¿Necesitas ayuda?",
+      helpBody: "Estamos aquí para apoyarte.",
+      helpCta: "Ir al soporte",
+      footerNote: "Seguridad y privacidad ante todo",
+    },
+    module: {
+      kicker: "En construcción",
+      note: "Este módulo se está preparando y llegará en las próximas versiones.",
+      back: "Volver a la vista general",
     },
     demo: {
       title: "Demostración",
@@ -281,6 +400,35 @@ export const sharedMessages: Record<Locale, SharedMessages> = {
       logout: "Sign out",
       loggingOut: "Signing out…",
       loading: "Loading…",
+      sidebar: "Sidebar",
+      openMenu: "Open menu",
+      closeMenu: "Close menu",
+      collapseSidebar: "Collapse sidebar",
+      expandSidebar: "Expand sidebar",
+      hideSidebar: "Hide sidebar",
+      showSidebar: "Show sidebar",
+      collapse: "Collapse menu",
+      breadcrumbs: "Breadcrumb",
+      workspace: "Workspace",
+      switchWorkspace: "Go to",
+      search: "Search the dashboard",
+      searchPlaceholder: "Search pages…",
+      searchEmpty: "No pages found.",
+      notifications: "Notifications",
+      notificationsEmpty: "Nothing new for now.",
+      account: "Account menu",
+      chooseLanguage: "Choose language",
+      close: "Close",
+      help: "Help center",
+      helpTitle: "Need help?",
+      helpBody: "We're here to support you.",
+      helpCta: "Go to support",
+      footerNote: "Security and privacy first",
+    },
+    module: {
+      kicker: "Under construction",
+      note: "This module is being prepared and will arrive in upcoming releases.",
+      back: "Back to overview",
     },
     demo: {
       title: "Demo",

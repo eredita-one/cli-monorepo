@@ -1,16 +1,12 @@
 @import "tailwindcss";
 
+/* Base do painel compartilhado: tema claro, dourado, superfícies e textos. */
+@import "../../../../packages/ui/src/dashboard/dashboard.css";
+
 /* Componentes compartilhados ficam fora do app: o Tailwind precisa varrê-los. */
 @source "../../../../packages/ui/src";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
 }
 
@@ -30,16 +26,4 @@
   --color-brand-800: oklch(43.2% 0.095 166.913);
   --color-brand-900: oklch(37.8% 0.077 168.94);
   --color-brand-950: oklch(26.2% 0.051 172.552);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
 }

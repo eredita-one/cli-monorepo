@@ -6,5 +6,33 @@
     "tagline": "La tua rete, i tuoi clienti e i tuoi guadagni in un unico posto.",
     "description": "Portafoglio, calendario delle commissioni e la tua squadra, con trasparenza.",
     "footer": "Area riservata ai consulenti"
+  },
+  "shell": {
+    "area": "Rete commerciale",
+    "tagline": "Rete di consulenti",
+    "workspace": "Rete commerciale"
+  },
+  "menu": {
+    "groups": {
+      "overview": "Panoramica",
+      "portfolio": "Portafoglio",
+      "network": "Rete",
+      "support": "Supporto"
+    },
+    "items": {
+      "overview": "Panoramica",
+      "clients": "I miei clienti",
+      "calendar": "Calendario",
+      "team": "Il mio team",
+      "commissions": "Commissioni",
+      "help": "Come funziona"
+    }
+  },
+  "modules": {
+    "clients": "I clienti della tua rete, con contratti e servizi.",
+    "calendar": "Incassi previsti e date di pagamento delle commissioni.",
+    "team": "La struttura della tua rete e la percentuale di ogni membro.",
+    "commissions": "Commissioni maturate, base di calcolo e pagamenti.",
+    "help": "Come funzionano la rete, le percentuali e i pagamenti."
   }
 }

@@ -9,7 +9,7 @@ export function AppBrand({ className = "" }: { className?: string }) {
       name="Eredità"
       product="ONE"
       mark={<EreditaMark />}
-      className={`font-serif ${className}`}
+      className={className}
     />
   );
 }

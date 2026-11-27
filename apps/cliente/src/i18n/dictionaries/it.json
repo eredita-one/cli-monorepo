@@ -6,5 +6,53 @@
     "tagline": "Il tuo patrimonio in Italia, sempre sotto controllo.",
     "description": "Immobili, entrate e uscite, imposte e il tuo trasferimento, in un unico posto.",
     "footer": "Area riservata ai clienti"
+  },
+  "shell": {
+    "area": "Portale privato",
+    "tagline": "Portale del cliente",
+    "workspace": "Portale privato"
+  },
+  "menu": {
+    "groups": {
+      "overview": "Inizio",
+      "assets": "Il mio patrimonio",
+      "tax": "Fisco",
+      "planning": "Pianificazione",
+      "account": "Il mio account",
+      "support": "Supporto"
+    },
+    "items": {
+      "overview": "Inizio",
+      "properties": "Immobili",
+      "money": "Il mio denaro",
+      "strategy": "Strategia patrimoniale",
+      "resale": "Rivendita",
+      "taxes": "Imposte",
+      "taxCenter": "Centrale fiscale",
+      "taxBrazilItaly": "Fisco Brasile–Italia",
+      "simulator": "Simulatore 5 anni",
+      "journey": "Percorso",
+      "plan": "Profilo e piano",
+      "personal": "I miei dati e famiglia",
+      "services": "Servizi contrattati",
+      "requests": "Chiedi aiuto",
+      "help": "Domande frequenti"
+    }
+  },
+  "modules": {
+    "properties": "I tuoi immobili in Italia, con documenti e situazione.",
+    "money": "Entrate e uscite del tuo patrimonio, in sola lettura.",
+    "strategy": "Il piano patrimoniale concordato con Eredità.",
+    "resale": "Simulazioni e passi per rivendere un immobile.",
+    "taxes": "Imposte dovute sui tuoi immobili e relative scadenze.",
+    "taxCenter": "Gli adempimenti fiscali seguiti dallo studio commercialista.",
+    "taxBrazilItaly": "Come si dichiarano i tuoi redditi in Brasile e in Italia.",
+    "simulator": "Proiezione a 5 anni di rendimento e costi.",
+    "journey": "Le tappe del tuo trasferimento in Italia.",
+    "plan": "Il tuo profilo e il piano contrattato.",
+    "personal": "I tuoi dati anagrafici e quelli della famiglia, in sola lettura.",
+    "services": "I servizi contrattati con Eredità.",
+    "requests": "Apri una richiesta al team Eredità e segui la risposta.",
+    "help": "Risposte alle domande più comuni."
   }
 }

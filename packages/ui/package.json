@@ -9,9 +9,11 @@
     "./not-found": "./src/not-found.tsx",
     "./login-view": "./src/login-view.tsx",
     "./login-form": "./src/login-form.tsx",
-    "./app-shell": "./src/app-shell.tsx",
-    "./nav-link": "./src/nav-link.tsx",
-    "./demo-view": "./src/demo-view.tsx"
+    "./demo-view": "./src/demo-view.tsx",
+    "./dashboard/frame": "./src/dashboard/frame.tsx",
+    "./dashboard/menu": "./src/dashboard/menu.tsx",
+    "./dashboard/blocks": "./src/dashboard/blocks.tsx",
+    "./dashboard/styles": "./src/dashboard/styles.ts"
   },
   "scripts": {
     "lint": "eslint",
@@ -19,7 +21,8 @@
   },
   "dependencies": {
     "@repo/auth": "workspace:*",
-    "@repo/i18n": "workspace:*"
+    "@repo/i18n": "workspace:*",
+    "lucide-react": "catalog:"
   },
   "peerDependencies": {
     "next": "^16.3.0",

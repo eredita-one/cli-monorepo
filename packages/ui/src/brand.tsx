@@ -28,9 +28,10 @@ export function Brand({
   );
 }
 
-function ChartMark() {
+/** Símbolo padrão (gráfico de barras), para apps sem símbolo próprio. */
+export function ChartMark() {
   return (
-    <span className="grid size-9 place-items-center rounded-lg bg-brand-600 text-white">
+    <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-brand-600 text-white">
       <svg
         viewBox="0 0 24 24"
         fill="none"
@@ -47,12 +48,15 @@ function ChartMark() {
   );
 }
 
-/** Símbolo da Eredità: "E" em serifa, dourado sobre verde (paleta dos protótipos). */
+/**
+ * Símbolo da Eredità: "E" itálico em serifa, dourado sobre verde (paleta dos protótipos).
+ * É a única serifa dos apps: faz parte do logo.
+ */
 export function EreditaMark() {
   return (
     <span
       aria-hidden="true"
-      className="grid size-9 place-items-center rounded-lg bg-brand-800 font-serif text-xl font-semibold text-[#e6c58c] ring-1 ring-[#b99a65]/50"
+      className="grid size-9 shrink-0 place-items-center rounded-[10px] bg-brand-800 font-serif text-[23px] text-[#f0d69e] italic ring-1 ring-[#e6c58b]/55"
     >
       E
     </span>

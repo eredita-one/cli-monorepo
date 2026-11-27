@@ -6,5 +6,33 @@
     "tagline": "Your network, clients and earnings in one place.",
     "description": "Portfolio, commission calendar and your team, with full transparency.",
     "footer": "Consultants area"
+  },
+  "shell": {
+    "area": "Sales network",
+    "tagline": "Advisor network",
+    "workspace": "Sales network"
+  },
+  "menu": {
+    "groups": {
+      "overview": "Overview",
+      "portfolio": "Portfolio",
+      "network": "Network",
+      "support": "Support"
+    },
+    "items": {
+      "overview": "Overview",
+      "clients": "My clients",
+      "calendar": "Calendar",
+      "team": "My team",
+      "commissions": "Commissions",
+      "help": "How it works"
+    }
+  },
+  "modules": {
+    "clients": "The clients in your network, with contracts and services.",
+    "calendar": "Expected receipts and commission payment dates.",
+    "team": "Your network structure and each member's percentage.",
+    "commissions": "Earned commissions, calculation basis and payouts.",
+    "help": "How the network, percentages and payouts work."
   }
 }

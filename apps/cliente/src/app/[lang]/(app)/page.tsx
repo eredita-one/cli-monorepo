@@ -1,6 +1,6 @@
 import type { Locale } from "@repo/i18n/config";
 import { sharedMessages } from "@repo/i18n/messages";
-import { Skeleton } from "@repo/ui/app-shell";
+import { Skeleton } from "@repo/ui/dashboard/blocks";
 import { DemoView } from "@repo/ui/demo-view";
 import type { Metadata } from "next";
 import { Suspense } from "react";

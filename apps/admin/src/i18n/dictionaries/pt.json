@@ -7,11 +7,147 @@
     "description": "Clientes, imóveis, operações e acessos da equipe, com controle e segurança.",
     "footer": "Uso interno"
   },
-  "nav": {
-    "overview": "Visão geral",
-    "users": "Usuários",
-    "profiles": "Perfis de acesso",
-    "audit": "Auditoria de acessos"
+  "shell": {
+    "area": "Administração",
+    "tagline": "Gestão patrimonial",
+    "workspace": "Gestão interna"
+  },
+  "menu": {
+    "groups": {
+      "overview": "Visão geral",
+      "relationship": "Relacionamento",
+      "assets": "Patrimônio",
+      "finance": "Financeiro e fiscal",
+      "operations": "Operações",
+      "administration": "Administração",
+      "support": "Suporte"
+    },
+    "items": {
+      "overview": "Visão geral",
+      "clients": "Clientes",
+      "client360": "Cadastro 360°",
+      "timeline": "Linha do tempo",
+      "properties": "Imóveis",
+      "wealthStrategy": "Estratégia patrimonial",
+      "relocation": "Relocation",
+      "entries": "Lançamentos",
+      "taxes": "Impostos",
+      "revenue": "Receitas e comissões",
+      "taxDossier": "Dossiê fiscal",
+      "taxCenter": "Central fiscal",
+      "taxBrazilItaly": "Fiscal Brasil–Itália",
+      "operations": "Operações",
+      "services": "Serviços contratados",
+      "restrictedArchive": "Arquivo restrito",
+      "users": "Usuários",
+      "profiles": "Perfis de acesso",
+      "audit": "Auditoria de acessos",
+      "help": "Central de ajuda",
+      "agenda": "Agenda"
+    }
+  },
+  "modules": {
+    "clients": "Relacionamentos e informações da carteira de clientes.",
+    "client360": "Dados cadastrais, documentos e contexto do relacionamento.",
+    "timeline": "Histórico de interações, solicitações e atividades.",
+    "properties": "Visão consolidada dos imóveis e ativos imobiliários.",
+    "wealthStrategy": "Planos patrimoniais e acompanhamento estratégico.",
+    "relocation": "Acompanhamento de processos de relocation internacional.",
+    "entries": "Movimentações financeiras e lançamentos da operação.",
+    "taxes": "Obrigações fiscais e calendário de impostos.",
+    "revenue": "Receitas contratadas e comissões da operação.",
+    "taxDossier": "Documentação e informações fiscais de cada cliente.",
+    "taxCenter": "Visão de obrigações e processos fiscais.",
+    "taxBrazilItaly": "Acompanhamento fiscal entre Brasil e Itália.",
+    "operations": "Fluxos de trabalho e operações administrativas.",
+    "services": "Serviços de consultoria e contratos da carteira.",
+    "restrictedArchive": "Documentos de acesso restrito e classificação controlada.",
+    "help": "Orientações para utilizar os painéis da Eredità.",
+    "agenda": "Agenda compartilhada e compromissos da operação."
+  },
+  "account": {
+    "security": "Segurança e acessos"
+  },
+  "overview": {
+    "title": "Visão geral",
+    "description": "Acompanhe a carteira e os principais indicadores da operação.",
+    "export": "Exportar",
+    "newRecord": "Novo cadastro",
+    "exportDone": "Relatório demonstrativo preparado para exportação.",
+    "newRecordDone": "Novo cadastro iniciado em modo demonstrativo.",
+    "demoTitle": "Ambiente demonstrativo.",
+    "demoBody": "Os dados exibidos são fictícios e anonimizados para apresentação da interface.",
+    "demoBadge": "Dados protegidos",
+    "dismiss": "Fechar aviso",
+    "capital": {
+      "eyebrow": "Indicador principal",
+      "title": "Capital total sob gestão",
+      "portfolio": "Carteira internacional",
+      "clients": "{count} clientes fictícios",
+      "summary": "Visão consolidada",
+      "clientsLabel": "Clientes na carteira",
+      "propertiesLabel": "Imóveis acompanhados",
+      "base": "Base demonstrativa"
+    },
+    "metrics": {
+      "label": "Indicadores complementares",
+      "clients": "Clientes",
+      "clientsCaption": "em acompanhamento",
+      "properties": "Imóveis",
+      "propertiesCaption": "na carteira patrimonial",
+      "contracted": "Consultorias contratadas",
+      "contractedCaption": "valor total dos contratos",
+      "received": "Recebido em consultorias",
+      "receivedCaption": "recebimentos registrados"
+    },
+    "portfolio": {
+      "kicker": "Relacionamento",
+      "title": "Carteira de clientes",
+      "description": "Visão demonstrativa dos clientes e contratos ativos.",
+      "viewAll": "Ver carteira completa",
+      "viewAllDone": "Exibindo todos os {count} clientes da carteira demonstrativa.",
+      "search": "Buscar clientes",
+      "searchPlaceholder": "Buscar cliente, perfil ou consultor",
+      "filters": "Filtros",
+      "sort": "Ordenar capital",
+      "sortAsc": "Ordenar capital em ordem crescente",
+      "sortDesc": "Ordenar capital em ordem decrescente",
+      "profileFilter": "Perfil / plano",
+      "allProfiles": "Todos os perfis",
+      "clearFilters": "Limpar filtros",
+      "columns": {
+        "client": "Cliente",
+        "profile": "Perfil / plano",
+        "consultant": "Consultor",
+        "capital": "Capital aplicado",
+        "contract": "Contrato",
+        "balance": "Saldo",
+        "actions": "Ações"
+      },
+      "openClient": "Abrir ficha de {name}",
+      "empty": "Nenhum cliente encontrado",
+      "emptyHint": "Ajuste os termos ou limpe os filtros para ver resultados.",
+      "showing": "Exibindo {from}–{to} de {total} clientes demonstrativos",
+      "page": "Página {page} de {pages}",
+      "previous": "Página anterior",
+      "next": "Próxima página",
+      "profiles": {
+        "investment": "Investimento",
+        "immigration": "Imigração",
+        "both": "Imigração + investimento"
+      },
+      "statuses": {
+        "active": "Ativo",
+        "review": "Em análise",
+        "pending": "Pendente"
+      }
+    },
+    "client": {
+      "kicker": "Relacionamento · cadastro demonstrativo",
+      "description": "Esta visualização apresenta os dados demonstrativos do relacionamento.",
+      "opened": "Ficha demonstrativa de {name} aberta.",
+      "back": "Voltar à carteira"
+    }
   },
   "common": {
     "save": "Salvar",
@@ -24,20 +160,6 @@
       "ADMIN": "Admin",
       "CONSULTOR": "Consultor",
       "CONTABIL": "Contábil"
-    }
-  },
-  "overview": {
-    "title": "Visão geral",
-    "greeting": "Olá, {name}",
-    "intro": "Daqui você controla quem entra nos sistemas da Eredità e o que cada pessoa pode fazer.",
-    "yourApps": "Suas áreas",
-    "yourPermissions": "Permissões nesta área",
-    "open": "Abrir",
-    "nothing": "Seu perfil não inclui a gestão de acessos.",
-    "sections": {
-      "users": "Crie contas da equipe, atribua perfis e desative acessos.",
-      "profiles": "Agrupe permissões em perfis para cada área.",
-      "audit": "Quem concedeu ou revogou o quê, e quando."
     }
   },
   "users": {

@@ -6,5 +6,38 @@
     "tagline": "Tu contabilidad organizada, en un solo lugar.",
     "description": "Asientos contables, conciliaciones y obligaciones fiscales con control y seguridad.",
     "footer": "Uso interno"
+  },
+  "shell": {
+    "area": "Despacho contable",
+    "tagline": "Gestión fiscal",
+    "workspace": "Despacho contable"
+  },
+  "menu": {
+    "groups": {
+      "overview": "Resumen",
+      "tax": "Fiscal",
+      "properties": "Inmuebles",
+      "documents": "Documentos",
+      "support": "Soporte"
+    },
+    "items": {
+      "overview": "Resumen",
+      "deadlines": "Calendario fiscal",
+      "taxpayers": "Contribuyentes",
+      "obligations": "Obligaciones y F24",
+      "cadastre": "Catastro y alquileres",
+      "archive": "Archivo restringido",
+      "banking": "Datos bancarios y mandatos",
+      "help": "Ayuda"
+    }
+  },
+  "modules": {
+    "deadlines": "Plazos de IMU, declaraciones y demás obligaciones, por fecha.",
+    "taxpayers": "Registro fiscal de los contribuyentes atendidos por el despacho.",
+    "obligations": "Estado de cada obligación, de la estimación al pago, y borradores de F24.",
+    "cadastre": "Datos catastrales, rentas y contratos de alquiler de los inmuebles.",
+    "archive": "Documentos fiscales de acceso restringido.",
+    "banking": "Datos bancarios y autorizaciones de cargo de los contribuyentes.",
+    "help": "Orientaciones para usar el panel del despacho."
   }
 }

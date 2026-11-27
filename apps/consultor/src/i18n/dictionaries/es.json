@@ -6,5 +6,33 @@
     "tagline": "Tu red, tus clientes y tus ganancias en un solo lugar.",
     "description": "Cartera, calendario de comisiones y tu equipo, con transparencia.",
     "footer": "Área de consultores"
+  },
+  "shell": {
+    "area": "Red comercial",
+    "tagline": "Red de consultores",
+    "workspace": "Red comercial"
+  },
+  "menu": {
+    "groups": {
+      "overview": "Resumen",
+      "portfolio": "Cartera",
+      "network": "Red",
+      "support": "Soporte"
+    },
+    "items": {
+      "overview": "Resumen",
+      "clients": "Mis clientes",
+      "calendar": "Calendario",
+      "team": "Mi equipo",
+      "commissions": "Comisiones",
+      "help": "Cómo funciona"
+    }
+  },
+  "modules": {
+    "clients": "Los clientes de tu red, con contratos y servicios.",
+    "calendar": "Cobros previstos y fechas de pago de las comisiones.",
+    "team": "La estructura de tu red y el porcentaje de cada integrante.",
+    "commissions": "Comisiones devengadas, base de cálculo y pagos.",
+    "help": "Cómo funcionan la red, los porcentajes y los pagos."
   }
 }

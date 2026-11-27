@@ -7,11 +7,147 @@
     "description": "Clients, properties, operations and team access, with control and security.",
     "footer": "Internal use"
   },
-  "nav": {
-    "overview": "Overview",
-    "users": "Users",
-    "profiles": "Access profiles",
-    "audit": "Access audit"
+  "shell": {
+    "area": "Administration",
+    "tagline": "Wealth management",
+    "workspace": "Internal management"
+  },
+  "menu": {
+    "groups": {
+      "overview": "Overview",
+      "relationship": "Relationships",
+      "assets": "Assets",
+      "finance": "Finance and tax",
+      "operations": "Operations",
+      "administration": "Administration",
+      "support": "Support"
+    },
+    "items": {
+      "overview": "Overview",
+      "clients": "Clients",
+      "client360": "Client 360°",
+      "timeline": "Timeline",
+      "properties": "Properties",
+      "wealthStrategy": "Wealth strategy",
+      "relocation": "Relocation",
+      "entries": "Transactions",
+      "taxes": "Taxes",
+      "revenue": "Revenue and commissions",
+      "taxDossier": "Tax dossier",
+      "taxCenter": "Tax center",
+      "taxBrazilItaly": "Brazil–Italy tax",
+      "operations": "Operations",
+      "services": "Contracted services",
+      "restrictedArchive": "Restricted archive",
+      "users": "Users",
+      "profiles": "Access profiles",
+      "audit": "Access audit",
+      "help": "Help center",
+      "agenda": "Calendar"
+    }
+  },
+  "modules": {
+    "clients": "Relationships and information across the client portfolio.",
+    "client360": "Registration data, documents and relationship context.",
+    "timeline": "History of interactions, requests and activities.",
+    "properties": "Consolidated view of properties and real estate assets.",
+    "wealthStrategy": "Wealth plans and strategic follow-up.",
+    "relocation": "Follow-up of international relocation processes.",
+    "entries": "Financial movements and operating entries.",
+    "taxes": "Tax obligations and tax calendar.",
+    "revenue": "Contracted revenue and operating commissions.",
+    "taxDossier": "Tax documents and information for each client.",
+    "taxCenter": "Overview of tax obligations and processes.",
+    "taxBrazilItaly": "Tax follow-up between Brazil and Italy.",
+    "operations": "Workflows and administrative operations.",
+    "services": "Advisory services and portfolio contracts.",
+    "restrictedArchive": "Restricted-access documents with controlled classification.",
+    "help": "Guidance on using the Eredità dashboards.",
+    "agenda": "Shared calendar and operating appointments."
+  },
+  "account": {
+    "security": "Security and access"
+  },
+  "overview": {
+    "title": "Overview",
+    "description": "Follow the portfolio and the main operating indicators.",
+    "export": "Export",
+    "newRecord": "New record",
+    "exportDone": "Demo report ready for export.",
+    "newRecordDone": "New record started in demo mode.",
+    "demoTitle": "Demo environment.",
+    "demoBody": "The data shown is fictitious and anonymized to present the interface.",
+    "demoBadge": "Protected data",
+    "dismiss": "Dismiss message",
+    "capital": {
+      "eyebrow": "Key indicator",
+      "title": "Total capital under management",
+      "portfolio": "International portfolio",
+      "clients": "{count} fictitious clients",
+      "summary": "Consolidated view",
+      "clientsLabel": "Clients in portfolio",
+      "propertiesLabel": "Properties monitored",
+      "base": "Demo data"
+    },
+    "metrics": {
+      "label": "Additional indicators",
+      "clients": "Clients",
+      "clientsCaption": "being followed",
+      "properties": "Properties",
+      "propertiesCaption": "in the asset portfolio",
+      "contracted": "Advisory contracts",
+      "contractedCaption": "total contract value",
+      "received": "Advisory fees received",
+      "receivedCaption": "payments recorded"
+    },
+    "portfolio": {
+      "kicker": "Relationships",
+      "title": "Client portfolio",
+      "description": "Demo view of clients and active contracts.",
+      "viewAll": "View full portfolio",
+      "viewAllDone": "Showing all {count} clients in the demo portfolio.",
+      "search": "Search clients",
+      "searchPlaceholder": "Search client, profile or advisor",
+      "filters": "Filters",
+      "sort": "Sort by capital",
+      "sortAsc": "Sort capital in ascending order",
+      "sortDesc": "Sort capital in descending order",
+      "profileFilter": "Profile / plan",
+      "allProfiles": "All profiles",
+      "clearFilters": "Clear filters",
+      "columns": {
+        "client": "Client",
+        "profile": "Profile / plan",
+        "consultant": "Advisor",
+        "capital": "Invested capital",
+        "contract": "Contract",
+        "balance": "Balance",
+        "actions": "Actions"
+      },
+      "openClient": "Open the record for {name}",
+      "empty": "No clients found",
+      "emptyHint": "Adjust the terms or clear the filters to see results.",
+      "showing": "{from}–{to} of {total} demo clients",
+      "page": "Page {page} of {pages}",
+      "previous": "Previous page",
+      "next": "Next page",
+      "profiles": {
+        "investment": "Investment",
+        "immigration": "Immigration",
+        "both": "Immigration + investment"
+      },
+      "statuses": {
+        "active": "Active",
+        "review": "Under review",
+        "pending": "Pending"
+      }
+    },
+    "client": {
+      "kicker": "Relationships · demo record",
+      "description": "This view shows the demo data for the relationship.",
+      "opened": "Demo record for {name} opened.",
+      "back": "Back to portfolio"
+    }
   },
   "common": {
     "save": "Save",
@@ -24,20 +160,6 @@
       "ADMIN": "Admin",
       "CONSULTOR": "Consultant",
       "CONTABIL": "Accounting"
-    }
-  },
-  "overview": {
-    "title": "Overview",
-    "greeting": "Hello, {name}",
-    "intro": "From here you control who can sign in to Eredità's systems and what each person can do.",
-    "yourApps": "Your areas",
-    "yourPermissions": "Permissions in this area",
-    "open": "Open",
-    "nothing": "Your profile doesn't include access management.",
-    "sections": {
-      "users": "Create team accounts, assign profiles and disable access.",
-      "profiles": "Group permissions into profiles for each area.",
-      "audit": "Who granted or revoked what, and when."
     }
   },
   "users": {
