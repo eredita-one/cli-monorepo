@@ -13,7 +13,7 @@ export type Workspace = {
 };
 
 /**
- * "Contexto de trabalho" no topo da barra lateral: mostra o app atual e leva aos outros
+ * "Workspace" no topo da barra lateral: mostra o app atual e leva aos outros
  * apps da pessoa. Cada app tem a própria sessão: o outro pode pedir login.
  */
 export function WorkspaceSwitcher({

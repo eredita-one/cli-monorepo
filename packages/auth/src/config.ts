@@ -57,6 +57,24 @@ export type ClientUser = {
   name: string;
 };
 
+/** Mínimo de caracteres de uma senha nova. É o mesmo da API, que confere de novo. */
+export const PASSWORD_MIN_LENGTH = 6;
+
+/**
+ * Estado do formulário de troca da própria senha. Em caso de erro, `code` é o código da
+ * API (ou `PASSWORD_MISMATCH`, conferido antes de chamar) e os números vêm para a mensagem.
+ */
+export type PasswordFormState =
+  | { status: "success" }
+  | {
+      status: "error";
+      code: string;
+      minLength?: number;
+      maxLength?: number;
+      retryAfterSeconds?: number;
+    }
+  | null;
+
 /**
  * Estado do formulário de login: `null` antes de enviar ou em caso de sucesso. Em caso de
  * erro, devolve também o que foi digitado: o React 19 limpa o formulário depois do envio,

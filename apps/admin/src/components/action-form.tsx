@@ -1,7 +1,14 @@
 "use client";
 
 import { format } from "@repo/i18n/format";
-import { type FormEvent, type ReactNode, startTransition, useActionState } from "react";
+import {
+  type FormEvent,
+  type ReactNode,
+  startTransition,
+  useActionState,
+  useEffect,
+  useRef,
+} from "react";
 import type { ActionState } from "@/lib/action-state";
 import { buttonClass } from "./ui";
 
@@ -25,6 +32,9 @@ export function ActionForm({
   variant = "primary",
   messages,
   className = "",
+  resetOnSuccess = false,
+  onSuccess,
+  secondaryAction,
   children,
 }: {
   action: (state: ActionState, formData: FormData) => Promise<ActionState>;
@@ -35,9 +45,28 @@ export function ActionForm({
   variant?: keyof typeof buttonClass;
   messages: Messages;
   className?: string;
+  /** Depois do sucesso, volta os campos aos valores da página (ex.: limpa senhas). */
+  resetOnSuccess?: boolean;
+  /** Chamado uma vez a cada sucesso (ex.: fechar o modal). Só de Client Components. */
+  onSuccess?: () => void;
+  /** Ao lado do botão de enviar (ex.: link "Cancelar"). */
+  secondaryAction?: ReactNode;
   children?: ReactNode;
 }) {
   const [state, formAction, pending] = useActionState(action, null);
+  const formRef = useRef<HTMLFormElement>(null);
+  // A função muda a cada render de quem usa; o efeito abaixo só deve rodar quando o
+  // estado muda, então guardamos a versão mais recente numa ref.
+  const onSuccessRef = useRef(onSuccess);
+  useEffect(() => {
+    onSuccessRef.current = onSuccess;
+  });
+
+  useEffect(() => {
+    if (state?.status !== "success") return;
+    if (resetOnSuccess) formRef.current?.reset();
+    onSuccessRef.current?.();
+  }, [state, resetOnSuccess]);
 
   // O React 19 limpa o formulário ao fim da ação, mesmo quando ela devolve um erro: o
   // e-mail repetido apagaria o que foi digitado. Com JavaScript, despachamos a ação à
@@ -49,7 +78,7 @@ export function ActionForm({
   }
 
   return (
-    <form action={formAction} onSubmit={submit} className={`space-y-3 ${className}`}>
+    <form ref={formRef} action={formAction} onSubmit={submit} className={`space-y-3 ${className}`}>
       {Object.entries(hidden).map(([name, value]) => (
         <input key={name} type="hidden" name={name} value={value} />
       ))}
@@ -58,6 +87,7 @@ export function ActionForm({
         <button type="submit" disabled={pending} className={buttonClass[variant]}>
           {pending ? pendingLabel : submitLabel}
         </button>
+        {secondaryAction}
         {state?.status === "success" && successLabel ? (
           <span role="status" className="text-sm text-brand-700 dark:text-brand-400">
             {successLabel}
@@ -80,7 +110,14 @@ function describe(
   state: Extract<ActionState, { status: "error" }>,
   { errors, permissionLabels }: Messages,
 ) {
-  const message = errors[state.code] ?? errors.UNKNOWN ?? state.code;
+  // Números e textos que a API manda em `details` (ex.: `minLength`) entram na mensagem.
+  const values = Object.fromEntries(
+    Object.entries((state.details ?? {}) as Record<string, unknown>).filter(
+      (entry): entry is [string, string | number] =>
+        typeof entry[1] === "string" || typeof entry[1] === "number",
+    ),
+  );
+  const message = format(errors[state.code] ?? errors.UNKNOWN ?? state.code, values);
   const missing = (state.details as { missing?: unknown } | undefined)?.missing;
   if (!Array.isArray(missing) || missing.length === 0 || !errors.missing) return message;
 

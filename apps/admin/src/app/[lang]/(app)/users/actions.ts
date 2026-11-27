@@ -36,6 +36,25 @@ export async function revokeProfileAction(_state: ActionState, formData: FormDat
   );
 }
 
+/** Dados da conta de outra pessoa. Senha em branco mantém a atual; senha nova encerra as sessões dela. */
+export async function updateUserAction(
+  _state: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  // Senha não passa pelo `text()`: espaços fazem parte dela.
+  const password = String(formData.get("password") ?? "");
+  if (password !== String(formData.get("passwordConfirm") ?? "")) {
+    return { status: "error", code: "PASSWORD_MISMATCH" };
+  }
+  return mutate(formData, () =>
+    adminApi.updateUser(text(formData, "userId"), {
+      name: text(formData, "name"),
+      email: text(formData, "email"),
+      ...(password ? { password } : {}),
+    }),
+  );
+}
+
 export async function setUserStatusAction(_state: ActionState, formData: FormData) {
   const action = text(formData, "action") === "enable" ? "enable" : "disable";
   return mutate(formData, () => adminApi.setStatus(text(formData, "userId"), action));

@@ -22,7 +22,7 @@ export default async function NewProfilePage() {
   const dict = await getDictionary();
 
   return (
-    <div className="max-w-4xl space-y-6">
+    <div className="space-y-6">
       <PageHeader
         title={dict.profiles.new}
         back={{ href: `/${locale}/profiles`, label: dict.profiles.title }}

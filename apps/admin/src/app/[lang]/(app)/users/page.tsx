@@ -1,15 +1,16 @@
 import type { Locale } from "@repo/i18n/config";
 import { sharedMessages } from "@repo/i18n/messages";
-import { Skeleton } from "@repo/ui/dashboard/blocks";
+import { PageHeading, Skeleton } from "@repo/ui/dashboard/blocks";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 import { requireUser } from "@/auth";
-import { Badge, buttonClass, Notice, PageHeader, tableClass } from "@/components/ui";
+import { buttonClass, Notice } from "@/components/ui";
 import { getDictionary, getLocale } from "@/i18n/get-dictionary";
 import { canCreateUsers } from "@/lib/access";
 import { adminApi } from "@/lib/admin-api";
 import { formatDateTime, load } from "@/lib/server";
+import { UsersBrowser } from "./users-browser";
 
 export async function generateMetadata(): Promise<Metadata> {
   return { title: (await getDictionary()).users.title };
@@ -20,9 +21,11 @@ export default async function UsersPage() {
   const dict = await getDictionary();
 
   return (
-    <div className="space-y-6">
-      <PageHeader
-        title={dict.users.title}
+    <div>
+      <PageHeading
+        kicker={dict.shell.area}
+        title={dict.menu.items.users}
+        description={dict.users.pageDescription}
         actions={
           <Suspense fallback={null}>
             <NewUserButton locale={locale} label={dict.users.new} />
@@ -54,54 +57,49 @@ async function UsersTable({ locale }: { locale: Locale }) {
   if (result.data.length === 0) return <Notice>{t.empty}</Notice>;
 
   return (
-    <div className={tableClass.wrapper}>
-      <table className={tableClass.table}>
-        <thead className={tableClass.head}>
-          <tr>
-            <th className={tableClass.th}>{t.name}</th>
-            <th className={tableClass.th}>{t.status}</th>
-            <th className={tableClass.th}>{t.profiles}</th>
-            <th className={tableClass.th}>{t.lastLogin}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {result.data.map((user) => (
-            <tr key={user.id} className={tableClass.row}>
-              <td className={tableClass.td}>
-                <Link
-                  href={`/${locale}/users/${user.id}`}
-                  className="font-medium text-brand-700 hover:underline dark:text-brand-400"
-                >
-                  {user.name}
-                </Link>
-                <div className="text-zinc-500 dark:text-zinc-400">{user.email}</div>
-              </td>
-              <td className={tableClass.td}>
-                <div className="flex flex-wrap gap-1.5">
-                  {user.status === "ACTIVE" ? (
-                    <Badge tone="brand">{t.active}</Badge>
-                  ) : (
-                    <Badge tone="danger">{t.disabled}</Badge>
-                  )}
-                  {user.invitePending ? <Badge tone="warning">{t.invitePending}</Badge> : null}
-                </div>
-              </td>
-              <td className={tableClass.td}>
-                <div className="flex flex-wrap gap-1.5">
-                  {user.profiles.map((profile) => (
-                    <Badge key={profile.id}>
-                      {dict.common.apps[profile.app]} · {profile.name}
-                    </Badge>
-                  ))}
-                </div>
-              </td>
-              <td className={`${tableClass.td} whitespace-nowrap text-zinc-600 dark:text-zinc-400`}>
-                {formatDateTime(locale, user.lastLoginAt) ?? t.never}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <UsersBrowser
+      locale={locale}
+      users={result.data.map((user) => ({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        status: user.status,
+        invitePending: user.invitePending,
+        profiles: user.profiles,
+        lastLoginAt: user.lastLoginAt,
+        lastLogin: formatDateTime(locale, user.lastLoginAt) ?? t.never,
+      }))}
+      appNames={dict.common.apps}
+      labels={{
+        user: t.user,
+        status: t.status,
+        profiles: t.profiles,
+        lastLogin: t.lastLogin,
+        actions: t.actions,
+        active: t.active,
+        disabled: t.disabled,
+        invitePending: t.invitePending,
+        search: t.search,
+        searchPlaceholder: t.searchPlaceholder,
+        filters: t.filters,
+        sort: t.sort,
+        sortRecent: t.sortRecent,
+        sortOldest: t.sortOldest,
+        allStatuses: t.allStatuses,
+        area: t.area,
+        allAreas: t.allAreas,
+        noArea: t.noArea,
+        profile: t.profileFilter,
+        allProfiles: t.allProfiles,
+        clearFilters: t.clearFilters,
+        showing: t.showing,
+        page: t.page,
+        previous: t.previous,
+        next: t.next,
+        noMatch: t.noMatch,
+        noMatchHint: t.noMatchHint,
+        openUser: t.openUser,
+      }}
+    />
   );
 }

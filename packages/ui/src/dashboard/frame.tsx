@@ -1,6 +1,6 @@
 import type { Locale } from "@repo/i18n/config";
 import { sharedMessages } from "@repo/i18n/messages";
-import { CircleHelp, ShieldCheck } from "lucide-react";
+import { CircleHelp, Settings2, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { type ReactNode, Suspense } from "react";
 import { type AccountLink, AccountMenu } from "./account-menu";
@@ -44,6 +44,7 @@ export function DashboardFrame({
   localeCookie,
   logoutAction,
   helpHref,
+  preferencesHref,
   getMenu,
   getAccount,
   getWorkspace,
@@ -61,15 +62,38 @@ export function DashboardFrame({
   logoutAction: (formData: FormData) => Promise<void>;
   /** Página de ajuda. Sem ela, o cartão e o botão de ajuda não aparecem. */
   helpHref?: string;
+  /** Preferências de quem está logado (dados e senha): primeiro atalho do menu da conta. */
+  preferencesHref?: string;
   /** Menu já filtrado para quem está logado (use `resolveMenu`). */
   getMenu: SessionLoader<NavGroup[]>;
   getAccount: SessionLoader<DashboardAccount>;
-  /** Contexto de trabalho no topo da barra lateral. Sem ele, o bloco não aparece. */
+  /** Workspace no topo da barra lateral. Sem ele, o bloco não aparece. */
   getWorkspace?: SessionLoader<Workspace>;
   getNotifications?: SessionLoader<DashboardNotification[]>;
   children: ReactNode;
 }) {
   const t = sharedMessages[locale].shell;
+  // Páginas fora do menu lateral que a trilha e a busca também conhecem.
+  const accountPages: NavGroup[] = preferencesHref
+    ? [
+        {
+          id: "account",
+          label: t.account,
+          icon: null,
+          items: [
+            {
+              id: "preferences",
+              label: t.preferences,
+              href: preferencesHref,
+              icon: <Settings2 aria-hidden strokeWidth={1.8} className="size-[17px]" />,
+            },
+          ],
+        },
+      ]
+    : [];
+  const preferencesLink = preferencesHref
+    ? [{ label: t.preferences, href: preferencesHref, icon: <Settings2 aria-hidden /> }]
+    : [];
 
   return (
     <DashboardShell
@@ -95,7 +119,7 @@ export function DashboardFrame({
       topbarStart={
         // Lê o endereço (usePathname): em rotas com [id], só existe na requisição.
         <Suspense fallback={<span className="truncate text-[13px] text-ink-muted">{area}</span>}>
-          <SessionBreadcrumbs load={getMenu} root={area} label={t.breadcrumbs} />
+          <SessionBreadcrumbs load={getMenu} extra={accountPages} root={area} label={t.breadcrumbs} />
         </Suspense>
       }
       topbarEnd={
@@ -103,6 +127,7 @@ export function DashboardFrame({
           <Suspense fallback={<SearchFallback placeholder={t.searchPlaceholder} />}>
             <SessionSearch
               load={getMenu}
+              extra={accountPages}
               labels={{ label: t.search, placeholder: t.searchPlaceholder, empty: t.searchEmpty }}
             />
           </Suspense>
@@ -120,6 +145,7 @@ export function DashboardFrame({
           <Suspense fallback={<span className="size-8 animate-pulse rounded-full bg-line" />}>
             <SessionAccount
               load={getAccount}
+              extraLinks={preferencesLink}
               locale={locale}
               localeCookie={localeCookie}
               logoutAction={logoutAction}
@@ -159,24 +185,28 @@ async function SessionNav({ load, label }: { load: SessionLoader<NavGroup[]>; la
 
 async function SessionBreadcrumbs({
   load,
+  extra,
   root,
   label,
 }: {
   load: SessionLoader<NavGroup[]>;
+  extra: NavGroup[];
   root: string;
   label: string;
 }) {
-  return <Breadcrumbs groups={await load()} root={root} label={label} />;
+  return <Breadcrumbs groups={[...(await load()), ...extra]} root={root} label={label} />;
 }
 
 async function SessionSearch({
   load,
+  extra,
   labels,
 }: {
   load: SessionLoader<NavGroup[]>;
+  extra: NavGroup[];
   labels: { label: string; placeholder: string; empty: string };
 }) {
-  return <MenuSearch groups={await load()} labels={labels} />;
+  return <MenuSearch groups={[...(await load()), ...extra]} labels={labels} />;
 }
 
 async function SessionNotifications({
@@ -201,9 +231,11 @@ async function SessionWorkspace({
 
 async function SessionAccount({
   load,
+  extraLinks,
   ...props
 }: {
   load: SessionLoader<DashboardAccount>;
+  extraLinks: AccountLink[];
   locale: Locale;
   localeCookie: string;
   logoutAction: (formData: FormData) => Promise<void>;
@@ -224,7 +256,7 @@ async function SessionAccount({
       email={account.email}
       subtitle={account.subtitle}
       initials={initialsOf(account.name)}
-      links={account.links ?? []}
+      links={[...extraLinks, ...(account.links ?? [])]}
     />
   );
 }

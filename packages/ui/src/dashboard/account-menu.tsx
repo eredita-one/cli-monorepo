@@ -1,12 +1,11 @@
 "use client";
 
-import { writeLocaleCookie } from "@repo/i18n/client";
-import { hasLocale, type Locale, localeNames, locales } from "@repo/i18n/config";
-import { ChevronDown, ChevronRight, Globe2, LogOut, X } from "lucide-react";
+import { type Locale, localeNames } from "@repo/i18n/config";
+import { ChevronDown, ChevronRight, Globe2, LogOut } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { type ReactNode, useId, useRef, useState } from "react";
+import { type ReactNode, useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
+import { LanguageDialog, useRouteLocale } from "./language-dialog";
 import { popoverClass } from "./styles";
 import { useDismiss } from "./use-dismiss";
 
@@ -47,13 +46,8 @@ export function AccountMenu({
   const [open, setOpen] = useState(false);
   const boxRef = useRef<HTMLDivElement>(null);
   const languageRef = useRef<HTMLDialogElement>(null);
-  const languageTitleId = useId();
   useDismiss(boxRef, open, () => setOpen(false));
-
-  // pathname = "/<idioma>/resto/da/rota"
-  const [, segment, ...rest] = usePathname().split("/");
-  const currentLocale = hasLocale(segment) ? segment : locale;
-  const restPath = rest.length > 0 ? `/${rest.join("/")}` : "";
+  const { currentLocale } = useRouteLocale(locale);
 
   return (
     <div ref={boxRef} className="relative">
@@ -115,61 +109,13 @@ export function AccountMenu({
             </button>
           </div>
 
-          {/* Modal nativo: foco preso, Esc fecha, fundo escurecido. Só os outros idiomas. */}
-          <dialog
-            ref={languageRef}
-            aria-labelledby={languageTitleId}
-            onClick={(event) => {
-              if (event.target === event.currentTarget) event.currentTarget.close();
-            }}
-            onKeyDown={(event) => {
-              // Esc fecha só o modal: marcado como tratado, o menu da conta o ignora.
-              if (event.key === "Escape") {
-                event.preventDefault();
-                event.currentTarget.close();
-              }
-            }}
-            className="m-auto w-[min(20rem,calc(100vw-2rem))] rounded-xl border border-line bg-white p-0 text-ink shadow-[0_24px_60px_rgb(16_44_32/0.22)] backdrop:bg-brand-950/45"
-          >
-            <div className="flex items-center justify-between gap-3 border-b border-line-soft py-3 pr-2 pl-4">
-              <h2 id={languageTitleId} className="flex items-center gap-2 text-sm font-semibold">
-                <Globe2 aria-hidden className="size-4 text-brand-700" />
-                {labels.chooseLanguage}
-              </h2>
-              <button
-                type="button"
-                aria-label={labels.close}
-                onClick={() => languageRef.current?.close()}
-                className="grid size-8 place-items-center rounded-md text-ink-muted hover:bg-canvas hover:text-ink"
-              >
-                <X aria-hidden className="size-4" />
-              </button>
-            </div>
-            <ul className="p-2">
-              {locales
-                .filter((option) => option !== currentLocale)
-                .map((option) => (
-                  <li key={option}>
-                    <Link
-                      href={`/${option}${restPath}`}
-                      hrefLang={option}
-                      lang={option}
-                      onClick={() => {
-                        writeLocaleCookie(localeCookie, option);
-                        languageRef.current?.close();
-                        setOpen(false);
-                      }}
-                      className="flex items-center justify-between rounded-lg px-3 py-2.5 text-sm text-ink-soft hover:bg-canvas hover:text-brand-700 focus-visible:outline-2 focus-visible:outline-gold-400"
-                    >
-                      {localeNames[option]}
-                      <span className="text-[11px] font-semibold tracking-[0.08em] text-ink-faint uppercase">
-                        {option}
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-            </ul>
-          </dialog>
+          <LanguageDialog
+            dialogRef={languageRef}
+            locale={locale}
+            localeCookie={localeCookie}
+            labels={{ title: labels.chooseLanguage, close: labels.close }}
+            onChoose={() => setOpen(false)}
+          />
 
           <form action={logoutAction} className="pt-1">
             <input type="hidden" name="lang" value={currentLocale} />

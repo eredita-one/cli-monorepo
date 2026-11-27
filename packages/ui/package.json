@@ -13,7 +13,9 @@
     "./dashboard/frame": "./src/dashboard/frame.tsx",
     "./dashboard/menu": "./src/dashboard/menu.tsx",
     "./dashboard/blocks": "./src/dashboard/blocks.tsx",
-    "./dashboard/styles": "./src/dashboard/styles.ts"
+    "./dashboard/styles": "./src/dashboard/styles.ts",
+    "./preferences": "./src/preferences/preferences-view.tsx",
+    "./dashboard/table-kit": "./src/dashboard/table-kit.tsx"
   },
   "scripts": {
     "lint": "eslint",

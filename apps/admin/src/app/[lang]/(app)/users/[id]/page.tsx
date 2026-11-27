@@ -1,17 +1,26 @@
-import type { StaffApp } from "@repo/auth/config";
+import { PASSWORD_MIN_LENGTH } from "@repo/auth/config";
 import type { Locale } from "@repo/i18n/config";
+import { format } from "@repo/i18n/format";
 import { sharedMessages } from "@repo/i18n/messages";
 import { Skeleton } from "@repo/ui/dashboard/blocks";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Suspense } from "react";
 import { requireUser } from "@/auth";
 import { ActionForm } from "@/components/action-form";
 import { Badge, inputClass, Notice, PageHeader, Panel } from "@/components/ui";
+import { GrantProfileDialog } from "./grant-profile-dialog";
+import { PasswordFields } from "./password-fields";
 import { getDictionary, getLocale } from "@/i18n/get-dictionary";
 import { canCreateUsers } from "@/lib/access";
 import { adminApi } from "@/lib/admin-api";
 import { formatDateTime, load } from "@/lib/server";
-import { grantProfileAction, revokeProfileAction, setUserStatusAction } from "../actions";
+import {
+  grantProfileAction,
+  revokeProfileAction,
+  setUserStatusAction,
+  updateUserAction,
+} from "../actions";
 
 export async function generateMetadata(): Promise<Metadata> {
   return { title: (await getDictionary()).users.title };
@@ -57,7 +66,6 @@ async function UserDetail({
   const profiles = await load(() => adminApi.listProfiles());
   const assigned = new Set(user.profiles.map((profile) => profile.id));
   const available = "data" in profiles ? profiles.data.filter((p) => !assigned.has(p.id)) : [];
-  const availableByApp = Object.groupBy(available, (profile) => profile.app);
 
   return (
     <div className="space-y-6">
@@ -84,7 +92,64 @@ async function UserDetail({
         </div>
       </dl>
 
-      {isSelf ? <Notice>{t.self}</Notice> : null}
+      {isSelf ? (
+        <Notice>
+          {t.self}{" "}
+          <Link href={`/${locale}/preferences`} className="font-medium text-brand-700 hover:underline">
+            {t.selfPreferences}
+          </Link>
+        </Notice>
+      ) : null}
+
+      {!isSelf && canCreateUsers(actor) ? (
+        <Panel title={t.dataTitle}>
+          <ActionForm
+            action={updateUserAction}
+            hidden={{ lang: locale, userId: user.id }}
+            submitLabel={dict.common.save}
+            pendingLabel={dict.common.saving}
+            successLabel={t.dataSaved}
+            messages={messages}
+            resetOnSuccess
+          >
+            <div className="grid gap-4 sm:grid-cols-2">
+              <label className="block space-y-1.5 text-sm font-medium">
+                <span>{t.name}</span>
+                <input
+                  name="name"
+                  defaultValue={user.name}
+                  required
+                  maxLength={120}
+                  autoComplete="off"
+                  className={inputClass}
+                />
+              </label>
+              <label className="block space-y-1.5 text-sm font-medium">
+                <span>{t.email}</span>
+                <input
+                  type="email"
+                  name="email"
+                  defaultValue={user.email}
+                  required
+                  maxLength={254}
+                  autoComplete="off"
+                  className={inputClass}
+                />
+              </label>
+            </div>
+            <PasswordFields
+              minLength={PASSWORD_MIN_LENGTH}
+              labels={{
+                toggle: t.passwordTitle,
+                cancel: t.passwordCancel,
+                hint: format(t.passwordHint, { min: PASSWORD_MIN_LENGTH }),
+                newPassword: t.newPassword,
+                confirm: t.passwordConfirm,
+              }}
+            />
+          </ActionForm>
+        </Panel>
+      ) : null}
 
       <Panel title={t.accessTitle}>
         {user.profiles.length === 0 ? (
@@ -114,33 +179,23 @@ async function UserDetail({
         )}
 
         {isSelf || available.length === 0 ? null : (
-          <ActionForm
+          <GrantProfileDialog
             action={grantProfileAction}
-            hidden={{ lang: locale, userId: user.id }}
-            submitLabel={t.grant}
-            pendingLabel={t.granting}
-            variant="secondary"
+            locale={locale}
+            userId={user.id}
+            profiles={available.map(({ id, app, name, description }) => ({ id, app, name, description }))}
+            appNames={dict.common.apps}
+            labels={{
+              open: t.grant,
+              title: t.grantTitle,
+              hint: t.grantHint,
+              submit: t.grant,
+              submitting: t.granting,
+              noDescription: t.noDescription,
+              close: dict.common.close,
+            }}
             messages={messages}
-            className="mt-4 border-t border-zinc-200 pt-4 dark:border-zinc-800"
-          >
-            <label className="block max-w-sm space-y-1.5 text-sm font-medium">
-              <span>{t.grantLabel}</span>
-              <select name="profileId" required defaultValue="" className={inputClass}>
-                <option value="" disabled>
-                  {t.choose}
-                </option>
-                {(Object.keys(availableByApp) as StaffApp[]).map((app) => (
-                  <optgroup key={app} label={dict.common.apps[app]}>
-                    {availableByApp[app]?.map((profile) => (
-                      <option key={profile.id} value={profile.id}>
-                        {profile.name}
-                      </option>
-                    ))}
-                  </optgroup>
-                ))}
-              </select>
-            </label>
-          </ActionForm>
+          />
         )}
       </Panel>
 

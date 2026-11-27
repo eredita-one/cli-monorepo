@@ -125,7 +125,7 @@ export function ProfileForm({
         <legend className="text-sm font-medium">
           {labels.permissions} ({selected.size})
         </legend>
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
           {Object.entries(groups).map(([area, items]) => (
             <div key={area} className="space-y-2">
               <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">

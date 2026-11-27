@@ -1,7 +1,7 @@
 "use server";
 
-import type { LoginFormState } from "@repo/auth/config";
-import { loginWithPassword, logout } from "@repo/auth/server";
+import type { LoginFormState, PasswordFormState } from "@repo/auth/config";
+import { changeOwnPassword, loginWithPassword, logout } from "@repo/auth/server";
 import { defaultLocale, hasLocale } from "@repo/i18n/config";
 import { redirect } from "next/navigation";
 import { AUTH } from "./auth-config";
@@ -28,4 +28,17 @@ export async function loginAction(
 export async function logoutAction(formData: FormData) {
   await logout(AUTH);
   redirect(`/${localeOf(formData)}/login`);
+}
+
+/** A própria pessoa troca a senha (Preferências). A sessão atual continua aberta. */
+export async function changePasswordAction(
+  _state: PasswordFormState,
+  formData: FormData,
+): Promise<PasswordFormState> {
+  return changeOwnPassword(AUTH, {
+    currentPassword: String(formData.get("currentPassword") ?? ""),
+    newPassword: String(formData.get("newPassword") ?? ""),
+    confirmPassword: String(formData.get("confirmPassword") ?? ""),
+    locale: localeOf(formData),
+  });
 }

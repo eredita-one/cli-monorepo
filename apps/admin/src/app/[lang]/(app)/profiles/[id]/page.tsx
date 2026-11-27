@@ -19,11 +19,17 @@ export async function generateMetadata(): Promise<Metadata> {
   return { title: (await getDictionary()).profiles.editTitle };
 }
 
-export default async function ProfilePage({ params }: PageProps<"/[lang]/profiles/[id]">) {
+export default async function ProfilePage({
+  params,
+}: PageProps<"/[lang]/profiles/[id]">) {
   const locale = await getLocale();
   return (
-    <div className="max-w-4xl">
-      <Suspense fallback={<Skeleton lines={6} label={sharedMessages[locale].shell.loading} />}>
+    <div>
+      <Suspense
+        fallback={
+          <Skeleton lines={6} label={sharedMessages[locale].shell.loading} />
+        }
+      >
         <ProfileDetail locale={locale} params={params} />
       </Suspense>
     </div>
@@ -68,7 +74,8 @@ async function ProfileDetail({
   }
 
   const catalog = buildCatalog(permissions.data, dict);
-  const editable = !profile.isSystem && definableApps(actor).includes(profile.app);
+  const editable =
+    !profile.isSystem && definableApps(actor).includes(profile.app);
 
   return (
     <div className="space-y-6">
@@ -86,6 +93,9 @@ async function ProfileDetail({
         }
       />
 
+      {editable && profile.userCount > 0 ? (
+        <Notice>{format(t.inUse, { count: profile.userCount })}</Notice>
+      ) : null}
       {editable ? (
         <Panel>
           <ProfileForm
@@ -127,9 +137,6 @@ async function ProfileDetail({
           messages={messages}
         />
       ) : null}
-      {editable && profile.userCount > 0 ? (
-        <Notice>{format(t.inUse, { count: profile.userCount })}</Notice>
-      ) : null}
     </div>
   );
 }
@@ -147,7 +154,7 @@ function ReadOnlyPermissions({
   return (
     <Panel>
       <Notice>{note}</Notice>
-      <ul className="mt-4 grid gap-x-6 gap-y-1.5 text-sm sm:grid-cols-2">
+      <ul className="mt-4 grid gap-x-6 gap-y-1.5 text-sm sm:grid-cols-2 xl:grid-cols-3">
         {permissions.map((key) => (
           <li key={key}>✓ {labelOf.get(key) ?? key}</li>
         ))}

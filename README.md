@@ -78,7 +78,7 @@ vem sem ele).
 
 ## Painel padrão (`@repo/ui/dashboard`)
 
-Toda área logada usa o mesmo painel (barra lateral verde com contexto de trabalho, menu
+Toda área logada usa o mesmo painel (barra lateral verde com o workspace, menu
 em grupos, ajuda; cabeçalho com trilha, busca, notificações e conta; rodapé). Cada app só
 passa a sua configuração:
 
@@ -97,9 +97,14 @@ passa a sua configuração:
 - **Páginas:** `@repo/ui/dashboard/blocks` (cabeçalho da página, aviso, indicador principal,
   métricas, seção em card, "em construção") e `@repo/ui/dashboard/styles` (botões, tabela,
   campos).
-- **Contexto de trabalho:** leva aos outros apps da equipe a que a pessoa tem acesso.
+- **Workspace:** leva aos outros apps da equipe a que a pessoa tem acesso.
   O endereço de cada um vem de `APP_URL_ADMIN`, `APP_URL_CONSULTOR` e `APP_URL_CONTABIL`
   (em desenvolvimento, as portas locais; em produção, app sem variável não aparece).
+- **Preferências:** `preferencesHref` põe "Preferências" no menu da conta (e na trilha e na
+  busca). A página `(app)/preferences` de cada app usa o `PreferencesView`
+  (`@repo/ui/preferences`): os próprios dados e a troca da senha, pela Server Action
+  `changePasswordAction` (`src/auth-actions.ts`, que chama `changeOwnPassword` do
+  `@repo/auth`). A sessão atual continua aberta; as outras são encerradas.
 - **Visual:** `packages/ui/src/dashboard/dashboard.css` (importado no `globals.css` de cada
   app) define o tema claro, o dourado (`gold-*`) e as cores de superfície e texto
   (`canvas`, `line`, `ink-*`). O app define só a sua paleta `brand-*`. O `dark:` só vale

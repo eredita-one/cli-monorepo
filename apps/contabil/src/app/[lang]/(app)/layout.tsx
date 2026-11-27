@@ -27,6 +27,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
       localeCookie={LOCALE_COOKIE}
       logoutAction={logoutAction}
       helpHref={`/${locale}/help`}
+      preferencesHref={`/${locale}/preferences`}
       getMenu={() => getMenu(locale)}
       getAccount={async () => {
         const user = await requireUser();

@@ -1,6 +1,7 @@
 import "server-only";
 import { defaultLocale, hasLocale } from "@repo/i18n/config";
 import { cookies, headers } from "next/headers";
+import { redirect } from "next/navigation";
 import { NextResponse, type NextRequest } from "next/server";
 import { cache } from "react";
 import { ApiError, callApi, type ForwardedClient, type TokenPair } from "./api";
@@ -10,6 +11,8 @@ import {
   type ClientUser,
   cookieNames,
   type LoginFormState,
+  type PasswordFormState,
+  sessionEndPath,
   STAFF_APP_NAMES,
   type StaffApp,
   type StaffAuthConfig,
@@ -115,6 +118,53 @@ export async function callApiAsUser<T>(
 }
 
 /**
+ * A própria pessoa troca a senha (chame numa Server Action). Confere a confirmação, manda
+ * à API o refresh token da sessão atual (ela continua aberta; as outras são encerradas) e
+ * devolve o resultado para o formulário. Sessão recusada pela API: volta ao login.
+ */
+export async function changeOwnPassword(
+  config: AuthConfig,
+  input: {
+    currentPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+    locale: string;
+  },
+): Promise<PasswordFormState> {
+  if (input.newPassword !== input.confirmPassword) {
+    return { status: "error", code: "PASSWORD_MISMATCH" };
+  }
+  const refreshToken = (await cookies()).get(cookieNames(config).refresh)?.value;
+
+  try {
+    await callApiAsUser(config, `/auth/${config.realm}/password`, {
+      method: "POST",
+      body: {
+        currentPassword: input.currentPassword,
+        newPassword: input.newPassword,
+        ...(refreshToken ? { refreshToken } : {}),
+      },
+    });
+    return { status: "success" };
+  } catch (error) {
+    if (!(error instanceof ApiError)) throw error;
+    if (error.status === 401) redirect(sessionEndPath(input.locale));
+    const details = (error.details ?? {}) as {
+      minLength?: number;
+      maxLength?: number;
+      retryAfterSeconds?: number;
+    };
+    return {
+      status: "error",
+      code: error.code,
+      minLength: details.minLength,
+      maxLength: details.maxLength,
+      retryAfterSeconds: details.retryAfterSeconds,
+    };
+  }
+}
+
+/**
  * Rota `GET /api/session/end?lang=xx`: apaga os cookies e volta ao login. As páginas
  * mandam para cá quando a API recusa o token (Server Components não podem apagar cookies).
  */
@@ -147,7 +197,7 @@ export function staffAppUrl(app: StaffApp): string | undefined {
 
 /**
  * Os outros apps da equipe a que a pessoa tem acesso, com o endereço já no idioma atual
- * (para o "contexto de trabalho" do painel). Apps sem endereço configurado ficam de fora.
+ * (para o "workspace" do painel). Apps sem endereço configurado ficam de fora.
  * Cada app tem a própria sessão: o outro pode pedir login.
  */
 export function otherStaffApps(user: StaffUser, current: StaffApp, locale: string) {

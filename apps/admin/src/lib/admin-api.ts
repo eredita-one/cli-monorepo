@@ -42,6 +42,26 @@ export type AuditEntry = {
   occurredAt: string;
 };
 
+/** Filtros da auditoria paginada (todos opcionais; datas em `AAAA-MM-DD`). */
+export type AuditQuery = {
+  page?: number;
+  pageSize?: number;
+  order?: "desc" | "asc";
+  type?: string;
+  personId?: string;
+  search?: string;
+  from?: string;
+  to?: string;
+};
+
+export type AuditPage = {
+  items: AuditEntry[];
+  /** Total com os filtros, somando todas as páginas. */
+  total: number;
+  page: number;
+  pageSize: number;
+};
+
 type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 const api = <T>(path: string, method: Method = "GET", body?: unknown) =>
   callApiAsUser<T>(AUTH, path, { method, body });
@@ -64,6 +84,9 @@ export const adminApi = {
       `/admin/staff-users/${id(userId)}/access-profiles/${id(profileId)}`,
       "DELETE",
     ),
+  /** Nome, e-mail e/ou senha nova (que encerra as sessões da pessoa). */
+  updateUser: (userId: string, body: { name?: string; email?: string; password?: string }) =>
+    api<StaffUserRecord>(`/admin/staff-users/${id(userId)}`, "PATCH", body),
   setStatus: (userId: string, action: "enable" | "disable") =>
     api<StaffUserRecord>(`/admin/staff-users/${id(userId)}/${action}`, "POST"),
 
@@ -82,5 +105,12 @@ export const adminApi = {
     api<void>(`/admin/access-profiles/${id(profileId)}`, "DELETE"),
 
   listPermissions: () => api<PermissionInfo[]>("/admin/permissions"),
-  listAudit: (limit: number) => api<AuditEntry[]>(`/admin/access-audit?limit=${limit}`),
+  listAudit: (query: AuditQuery) => {
+    const params = new URLSearchParams(
+      Object.entries(query)
+        .filter(([, value]) => value !== undefined && value !== "")
+        .map(([key, value]) => [key, String(value)]),
+    );
+    return api<AuditPage>(`/admin/access-audit?${params}`);
+  },
 };

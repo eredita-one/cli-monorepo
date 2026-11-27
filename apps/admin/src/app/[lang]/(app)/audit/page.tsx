@@ -1,92 +1,175 @@
 import type { StaffApp } from "@repo/auth/config";
 import type { Locale } from "@repo/i18n/config";
 import { sharedMessages } from "@repo/i18n/messages";
-import { Skeleton } from "@repo/ui/dashboard/blocks";
+import { PageHeading, Skeleton } from "@repo/ui/dashboard/blocks";
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { Notice, PageHeader, tableClass } from "@/components/ui";
+import { Notice } from "@/components/ui";
 import { getDictionary, getLocale } from "@/i18n/get-dictionary";
 import { type AuditEntry, adminApi } from "@/lib/admin-api";
 import { formatDateTime, load } from "@/lib/server";
+import { type AuditFilters, AuditBrowser, type AuditRow } from "./audit-browser";
 
 type Dictionary = Awaited<ReturnType<typeof getDictionary>>;
+type SearchParams = Record<string, string | string[] | undefined>;
+
+const PAGE_SIZE = 25;
 
 export async function generateMetadata(): Promise<Metadata> {
   return { title: (await getDictionary()).audit.title };
 }
 
-export default async function AuditPage() {
+export default async function AuditPage({ searchParams }: PageProps<"/[lang]/audit">) {
   const locale = await getLocale();
   const dict = await getDictionary();
   return (
-    <div className="space-y-6">
-      <PageHeader title={dict.audit.title} description={dict.audit.intro} />
+    <div>
+      <PageHeading kicker={dict.shell.area} title={dict.audit.title} description={dict.audit.intro} />
       <Suspense fallback={<Skeleton lines={8} label={sharedMessages[locale].shell.loading} />}>
-        <AuditTable locale={locale} />
+        <AuditTable locale={locale} searchParams={searchParams} />
       </Suspense>
     </div>
   );
 }
 
-async function AuditTable({ locale }: { locale: Locale }) {
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const DAY = /^\d{4}-\d{2}-\d{2}$/;
+
+/** Página e filtros vindos do endereço. Valor estranho é ignorado (não vira erro da API). */
+function parse(params: SearchParams, eventTypes: readonly string[]) {
+  const one = (key: string) => {
+    const value = params[key];
+    return (Array.isArray(value) ? value[0] : value)?.trim() ?? "";
+  };
+  const page = Number.parseInt(one("page"), 10);
+  const filters: AuditFilters = {
+    q: one("q").slice(0, 100),
+    type: eventTypes.includes(one("type")) ? one("type") : "",
+    person: UUID.test(one("person")) ? one("person") : "",
+    from: DAY.test(one("from")) ? one("from") : "",
+    to: DAY.test(one("to")) ? one("to") : "",
+    order: one("order") === "asc" ? "asc" : "desc",
+  };
+  return { page: Number.isFinite(page) && page > 1 ? page : 1, filters };
+}
+
+async function AuditTable({
+  locale,
+  searchParams,
+}: {
+  locale: Locale;
+  searchParams: Promise<SearchParams>;
+}) {
   const dict = await getDictionary();
   const t = dict.audit;
-  const result = await load(() => adminApi.listAudit(100));
-  if ("error" in result) return <Notice>{dict.common.noPermission}</Notice>;
-  if (result.data.length === 0) return <Notice>{t.empty}</Notice>;
+  const events: Record<string, string> = t.events;
+  const { page: requested, filters } = parse(await searchParams, Object.keys(events));
 
+  const fetchPage = (page: number) =>
+    load(() =>
+      adminApi.listAudit({
+        page,
+        pageSize: PAGE_SIZE,
+        order: filters.order,
+        type: filters.type,
+        personId: filters.person,
+        search: filters.q,
+        from: filters.from,
+        to: filters.to,
+      }),
+    );
   // Nomes em vez de ids, quando a pessoa também pode listar usuários e perfis.
-  const [users, profiles] = await Promise.all([
+  const [first, users, profiles] = await Promise.all([
+    fetchPage(requested),
     load(() => adminApi.listUsers()),
     load(() => adminApi.listProfiles()),
   ]);
-  const userNames = new Map("data" in users ? users.data.map((u) => [u.id, u.name]) : []);
-  const profileNames = new Map(
-    "data" in profiles ? profiles.data.map((p) => [p.id, p.name]) : [],
-  );
-  const events: Record<string, string> = t.events;
+  if ("error" in first && first.error === "forbidden") {
+    return <Notice>{dict.common.noPermission}</Notice>;
+  }
+
+  let result = "data" in first ? first.data : { items: [], total: 0, page: 1, pageSize: PAGE_SIZE };
+  let page = requested;
+  // Endereço com página além da última (ex.: depois de filtrar): mostra a última.
+  const last = Math.max(1, Math.ceil(result.total / PAGE_SIZE));
+  if (page > last) {
+    page = last;
+    const retry = await fetchPage(last);
+    if ("data" in retry) result = retry.data;
+  }
+
+  const userById = new Map("data" in users ? users.data.map((u) => [u.id, u]) : []);
+  const profileNames = new Map("data" in profiles ? profiles.data.map((p) => [p.id, p.name]) : []);
 
   const subjectOf = (entry: AuditEntry) => {
     const name =
       entry.subjectType === "access_profile"
         ? (profileNames.get(entry.subjectId) ?? stringField(entry, "name"))
-        : (userNames.get(entry.subjectId) ?? stringField(entry, "email"));
-    return name ?? shortId(entry.subjectId);
+        : (userById.get(entry.subjectId)?.name ?? stringField(entry, "email"));
+    return { name: name ?? shortId(entry.subjectId), kind: t.subjectKinds[entry.subjectType] };
   };
 
+  const rows: AuditRow[] = result.items.map((entry) => {
+    const actor = entry.actorId ? userById.get(entry.actorId) : undefined;
+    return {
+      id: entry.id,
+      when: formatDateTime(locale, entry.occurredAt) ?? "",
+      type: entry.type,
+      typeLabel: events[entry.type] ?? entry.type,
+      actor: entry.actorId
+        ? { name: actor?.name ?? shortId(entry.actorId), email: actor?.email }
+        : null,
+      subject: subjectOf(entry),
+      details: detailsOf(entry, dict, locale),
+    };
+  });
+
   return (
-    <div className={tableClass.wrapper}>
-      <table className={tableClass.table}>
-        <thead className={tableClass.head}>
-          <tr>
-            <th className={tableClass.th}>{t.when}</th>
-            <th className={tableClass.th}>{t.event}</th>
-            <th className={tableClass.th}>{t.actor}</th>
-            <th className={tableClass.th}>{t.subject}</th>
-            <th className={tableClass.th}>{t.details}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {result.data.map((entry) => (
-            <tr key={entry.id} className={tableClass.row}>
-              <td className={`${tableClass.td} whitespace-nowrap text-zinc-600 dark:text-zinc-400`}>
-                {formatDateTime(locale, entry.occurredAt)}
-              </td>
-              <td className={`${tableClass.td} font-medium`}>{events[entry.type] ?? entry.type}</td>
-              <td className={tableClass.td}>
-                {entry.actorId
-                  ? (userNames.get(entry.actorId) ?? shortId(entry.actorId))
-                  : dict.common.system}
-              </td>
-              <td className={tableClass.td}>{subjectOf(entry)}</td>
-              <td className={`${tableClass.td} text-zinc-600 dark:text-zinc-400`}>
-                {detailsOf(entry, dict, locale)}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <AuditBrowser
+      rows={rows}
+      total={result.total}
+      page={page}
+      pageSize={PAGE_SIZE}
+      filters={filters}
+      eventOptions={Object.entries(events)
+        .map(([value, label]) => ({ value, label }))
+        .sort((a, b) => a.label.localeCompare(b.label, locale))}
+      people={
+        "data" in users
+          ? users.data
+              .map(({ id, name }) => ({ id, name }))
+              .sort((a, b) => a.name.localeCompare(b.name, locale))
+          : []
+      }
+      labels={{
+        when: t.when,
+        event: t.event,
+        actor: t.actor,
+        subject: t.subject,
+        details: t.details,
+        system: dict.common.system,
+        search: t.search,
+        searchPlaceholder: t.searchPlaceholder,
+        filters: t.filters,
+        sort: t.sort,
+        sortOldest: t.sortOldest,
+        sortNewest: t.sortNewest,
+        eventFilter: t.eventFilter,
+        allEvents: t.allEvents,
+        personFilter: t.personFilter,
+        allPeople: t.allPeople,
+        from: t.from,
+        to: t.to,
+        clearFilters: t.clearFilters,
+        showing: t.showing,
+        page: t.page,
+        previous: t.previous,
+        next: t.next,
+        empty: t.empty,
+        noMatch: t.noMatch,
+        noMatchHint: t.noMatchHint,
+      }}
+    />
   );
 }
 
@@ -124,6 +207,12 @@ function detailsOf(entry: AuditEntry, dict: Dictionary, locale: Locale): string 
     }
     case "StaffUserCreated":
       return stringField(entry, "email") ?? "";
+    case "StaffUserUpdated":
+      return (["name", "email"] as const)
+        .map((field) => entry.data[field] as { from?: string; to?: string } | undefined)
+        .filter((change) => change?.from && change.to)
+        .map((change) => `${change?.from} → ${change?.to}`)
+        .join(" · ");
     case "AccountLocked":
       return formatDateTime(locale, stringField(entry, "until") ?? null) ?? "";
     default:

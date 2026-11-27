@@ -5,27 +5,34 @@ import {
   DemoNotice,
   HighlightCard,
   HighlightStat,
-  InitialsBadge,
   initialsOf,
   MetricCard,
   MetricGrid,
   PageHeading,
   SectionCard,
 } from "@repo/ui/dashboard/blocks";
-import { buttonClass, inputClass, tableClass } from "@repo/ui/dashboard/styles";
+import { buttonClass, tableClass } from "@repo/ui/dashboard/styles";
+import {
+  FilterPanel,
+  FilterSelect,
+  IdentityCell,
+  SearchField,
+  TableEmpty,
+  TableFooter,
+  TableToolbar,
+  TagBadge,
+} from "@repo/ui/dashboard/table-kit";
 import {
   ArrowDownUp,
   ArrowRight,
   Building2,
   Check,
   ChevronLeft,
-  ChevronRight,
   Download,
   FileText,
   Filter,
   MoreHorizontal,
   Plus,
-  Search,
   UserRound,
   Users,
   WalletCards,
@@ -361,30 +368,13 @@ function PortfolioTable({
     </button>
   );
   const identity = (client: PortfolioClient) => (
-    <div className="flex min-w-36 items-center gap-2.5">
-      <InitialsBadge initials={initialsOf(client.name)} />
-      <span className="flex flex-col gap-0.5">
-        <strong className="text-[13px] font-semibold text-ink-soft">
-          {client.name}
-        </strong>
-        <small className="text-xs text-ink-faint">
-          {t.statuses[client.status]}
-        </small>
-      </span>
-    </div>
+    <IdentityCell
+      initials={initialsOf(client.name)}
+      title={client.name}
+      subtitle={t.statuses[client.status]}
+    />
   );
-  const badge = (client: PortfolioClient) => (
-    <span className="inline-flex items-center rounded-md border border-line bg-[#f5f8f5] px-2 py-1 text-xs whitespace-nowrap text-ink-soft">
-      {t.profiles[client.profile]}
-    </span>
-  );
-  const empty = (
-    <div className="flex min-h-28 flex-col items-center justify-center gap-1.5 text-[13px] text-ink-muted">
-      <Search aria-hidden className="size-[18px] text-ink-faint" />
-      <strong className="text-sm text-ink-soft">{t.empty}</strong>
-      <span>{t.emptyHint}</span>
-    </div>
-  );
+  const empty = <TableEmpty title={t.empty} hint={t.emptyHint} />;
 
   return (
     <SectionCard
@@ -404,58 +394,55 @@ function PortfolioTable({
         </button>
       }
     >
-      <div className="flex flex-col gap-2 pb-2.5 sm:flex-row sm:items-center sm:justify-between">
-        <label className="flex h-9 w-full items-center gap-2 rounded-lg border border-line px-2.5 text-ink-faint focus-within:border-brand-300 focus-within:ring-3 focus-within:ring-brand-600/10 sm:w-80">
-          <Search aria-hidden className="size-4 shrink-0" />
-          <span className="sr-only">{t.search}</span>
-          <input
-            value={search}
-            onChange={(event) => {
-              setSearch(event.target.value);
-              setPage(0);
-            }}
+      <TableToolbar
+        search={
+          <SearchField
+            label={t.search}
             placeholder={t.searchPlaceholder}
-            className="w-full min-w-0 bg-transparent text-[13px] text-ink outline-none placeholder:text-ink-faint"
-          />
-        </label>
-        <div className="flex gap-2 max-sm:[&>*]:flex-1">
-          <button
-            type="button"
-            aria-expanded={filterOpen}
-            onClick={() => setFilterOpen((open) => !open)}
-            className={buttonClass("outline", "sm")}
-          >
-            <Filter aria-hidden />
-            {t.filters}
-          </button>
-          <button
-            type="button"
-            aria-label={ascending === false ? t.sortAsc : t.sortDesc}
-            onClick={() => {
-              setAscending((value) => (value === null ? false : !value));
+            value={search}
+            onChange={(value) => {
+              setSearch(value);
               setPage(0);
             }}
-            className={buttonClass("outline", "sm")}
-          >
-            <ArrowDownUp aria-hidden />
-            {t.sort}
-          </button>
-        </div>
-      </div>
+          />
+        }
+        actions={
+          <>
+            <button
+              type="button"
+              aria-expanded={filterOpen}
+              onClick={() => setFilterOpen((open) => !open)}
+              className={buttonClass("outline", "sm")}
+            >
+              <Filter aria-hidden />
+              {t.filters}
+            </button>
+            <button
+              type="button"
+              aria-label={ascending === false ? t.sortAsc : t.sortDesc}
+              onClick={() => {
+                setAscending((value) => (value === null ? false : !value));
+                setPage(0);
+              }}
+              className={buttonClass("outline", "sm")}
+            >
+              <ArrowDownUp aria-hidden />
+              {t.sort}
+            </button>
+          </>
+        }
+      />
 
       {filterOpen ? (
-        <div className="mb-2.5 flex flex-wrap items-center gap-2.5 rounded-lg border border-line-soft bg-[#fafcfb] p-2.5">
-          <label htmlFor="profile-filter" className="text-xs text-ink-muted">
-            {t.profileFilter}
-          </label>
-          <select
+        <FilterPanel>
+          <FilterSelect
             id="profile-filter"
+            label={t.profileFilter}
             value={profile}
-            onChange={(event) => {
-              setProfile(event.target.value as Profile | "all");
+            onChange={(value) => {
+              setProfile(value as Profile | "all");
               setPage(0);
             }}
-            className={`${inputClass} h-8 w-auto min-w-44 flex-1 py-0 text-[13px] sm:flex-none`}
           >
             <option value="all">{t.allProfiles}</option>
             {PROFILES.map((option) => (
@@ -463,7 +450,7 @@ function PortfolioTable({
                 {t.profiles[option]}
               </option>
             ))}
-          </select>
+          </FilterSelect>
           <button
             type="button"
             className={buttonClass("ghost", "sm")}
@@ -475,7 +462,7 @@ function PortfolioTable({
           >
             {t.clearFilters}
           </button>
-        </div>
+        </FilterPanel>
       ) : null}
 
       <div className={`${tableClass.wrapper} max-lg:hidden`}>
@@ -497,7 +484,9 @@ function PortfolioTable({
             {visible.map((client) => (
               <tr key={client.name} className={tableClass.row}>
                 <td className={tableClass.td}>{identity(client)}</td>
-                <td className={tableClass.td}>{badge(client)}</td>
+                <td className={tableClass.td}>
+                  <TagBadge>{t.profiles[client.profile]}</TagBadge>
+                </td>
                 <td className={tableClass.td}>{client.consultant}</td>
                 <td
                   className={`${tableClass.td} font-semibold whitespace-nowrap text-brand-700`}
@@ -553,32 +542,17 @@ function PortfolioTable({
         ) : null}
       </div>
 
-      <div className="flex min-h-12 flex-col gap-2 py-2.5 text-xs text-ink-muted sm:flex-row sm:items-center sm:justify-between">
-        <span>{format(t.showing, { from, to, total: filtered.length })}</span>
-        <div className="flex items-center gap-2 self-end sm:self-auto">
-          <button
-            type="button"
-            aria-label={t.previous}
-            disabled={page === 0}
-            onClick={() => setPage((current) => Math.max(0, current - 1))}
-            className={buttonClass("outline", "icon")}
-          >
-            <ChevronLeft aria-hidden />
-          </button>
-          <span>{format(t.page, { page: page + 1, pages })}</span>
-          <button
-            type="button"
-            aria-label={t.next}
-            disabled={page + 1 >= pages}
-            onClick={() =>
-              setPage((current) => Math.min(pages - 1, current + 1))
-            }
-            className={buttonClass("outline", "icon")}
-          >
-            <ChevronRight aria-hidden />
-          </button>
-        </div>
-      </div>
+      <TableFooter
+        summary={format(t.showing, { from, to, total: filtered.length })}
+        page={page}
+        pages={pages}
+        labels={{
+          page: format(t.page, { page: page + 1, pages }),
+          previous: t.previous,
+          next: t.next,
+        }}
+        onPage={setPage}
+      />
     </SectionCard>
   );
 }
